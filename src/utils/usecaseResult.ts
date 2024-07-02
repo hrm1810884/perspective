@@ -14,18 +14,18 @@ type Err<E extends Error | null> = {
     readonly err: E;
 };
 
-export const ResultOk = <T>(val: T): Ok<T> => ({
+export const UsecaseOk = <T>(val: T): Ok<T> => ({
     status: "ok",
     val,
     err: null,
 });
 
-export const ResultError = <E extends Error | null>(err: E): Err<E> => ({
+export const UsecaseError = <E extends Error | null>(err: E): Err<E> => ({
     status: "err",
     val: null,
     err,
 });
 
-export type ResultMethod = (
+export type UsecaseMethod = (
     ...args: any[]
 ) => Result<unknown, Error | null> | Promise<Result<unknown, Error | null>>;

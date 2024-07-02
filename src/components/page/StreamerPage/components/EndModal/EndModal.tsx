@@ -1,9 +1,7 @@
 /* eslint-disable no-empty-pattern */
 "use client";
 import { Button, Modal, Text } from "@mantine/core";
-import { FC, useCallback } from "react";
-
-import { useStreamer } from "../../hooks";
+import { FC } from "react";
 
 import { useEndModal } from "./hooks";
 
@@ -14,31 +12,8 @@ interface EndModalProps {}
 export const EndModal: FC<EndModalProps> = ({}) => {
     const {
         isEndModalOpen,
-        handler: { handleClick, handleClose },
+        handler: { handleClick, handleClose, handleSave },
     } = useEndModal();
-
-    const { clientText } = useStreamer();
-
-    const handleSave = useCallback(
-        (option: "private" | "public") => {
-            // Prepend "公開可" if the option is "public"
-            const textToSave = option === "public" ? `公開可\n${clientText}` : clientText;
-
-            // Create a blob with the text data
-            const date = new Date().toISOString();
-            const blob = new Blob([textToSave], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `experienceData_${option}_${date}.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            handleClick();
-        },
-        [clientText, handleClick]
-    );
 
     return (
         <Modal
@@ -54,8 +29,10 @@ export const EndModal: FC<EndModalProps> = ({}) => {
                 <Button variant="outline" onClick={handleClick}>
                     保存しない
                 </Button>
-                <Button onClick={() => handleSave("private")}>保存してもよいが，公開しない</Button>
-                <Button onClick={() => handleSave("public")}>
+                <Button onClick={async () => await handleSave("private")}>
+                    保存してもよいが，公開しない
+                </Button>
+                <Button onClick={async () => await handleSave("public")}>
                     保存してもよく，今後の展示で公開しても良い
                 </Button>
             </div>
