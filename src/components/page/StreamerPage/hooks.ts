@@ -32,8 +32,12 @@ export const useStreamer = () => {
     );
 
     const handleReset = useCallback(() => {
-        setClientText("");
-    }, [setClientText]);
+        updateText("");
+        sendToServer({
+            text: "",
+            cursorPosition: 0,
+        });
+    }, [updateText, sendToServer]);
 
     return {
         textareaRef,
