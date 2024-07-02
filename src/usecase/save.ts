@@ -1,9 +1,12 @@
 import { PrivacyLevel, StreamerText } from "@/models";
 import { UsecaseError, UsecaseOk } from "@/utils";
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const saveDiary = async (text: StreamerText, privacyLevel: PrivacyLevel) => {
     try {
-        const res = await fetch("api/save", {
+        await delay(1000);
+        const res = await fetch("/api/save", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
