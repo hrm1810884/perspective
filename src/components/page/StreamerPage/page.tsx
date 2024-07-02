@@ -12,7 +12,13 @@ import { useStreamer } from "./hooks";
 
 import { DemoModal, EndModal, StartModal } from "./components";
 
-import { controlAreaStyle, textAreaStyle, wrapper } from "./page.css";
+import {
+    buttonStyle,
+    controlAreaStyle,
+    textAreaInputStyle,
+    textAreaRootStyle,
+    wrapper,
+} from "./page.css";
 
 export const StreamerPage = () => {
     const {
@@ -81,7 +87,7 @@ export const StreamerPage = () => {
             <DemoModal />
             <EndModal />
             <Textarea
-                classNames={{ input: textAreaStyle }}
+                classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
                 value={clientText}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder="Write message"
@@ -91,12 +97,14 @@ export const StreamerPage = () => {
 
             <div className={controlAreaStyle}>
                 {experienceState.mode !== null && (
-                    <Button onClick={handleEndButtonClick}>
+                    <Button onClick={handleEndButtonClick} className={buttonStyle}>
                         {`${experienceDataList.find((item) => item.mode === experienceState.mode)?.label}を終了する`}
                     </Button>
                 )}
                 {experienceState.mode === "Demo" && (
-                    <Button onClick={handleBackButtonClick}>他のデモを見る</Button>
+                    <Button onClick={handleBackButtonClick} className={buttonStyle}>
+                        他のデモを見る
+                    </Button>
                 )}
             </div>
         </div>
