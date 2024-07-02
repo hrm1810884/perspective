@@ -9,8 +9,8 @@ import ServerProviders from "./providers/server";
 // import { ErrorHandler, Loader } from "@/components/common/functional";
 // import { GlobalStateProvider } from "@/components/common/states/globalStates";
 
-import "./globals.css";
 import "@mantine/core/styles.css";
+import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
     subsets: ["latin"],
@@ -18,8 +18,8 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-    title: "III-Exhibition Extra Works-HAI.",
-    description: "human-AI pair writing app",
+    title: "III-Exhibition Extra Works-Prismatic-Diary.",
+    description: "human-AI pair diary-writing app",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
