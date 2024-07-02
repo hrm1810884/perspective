@@ -18,6 +18,7 @@ export const buttonRootStyle = style({
         background:
             "conic-gradient(from 90deg, #ffffff, #B1B1B1,#96BDD1, #ffffff, #B1B1B1,#E3ED95,#ffffff, #B1B1B1,#91DCB7,#ffffff,#E2B9E1,#ffffff)",
         transform: "scale(1.1)",
+        color: "#111111",
         filter: "drop-shadow(0 0px 10px rgba(0, 0, 0, 0.25))",
     },
 });
