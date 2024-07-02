@@ -1,11 +1,11 @@
 import { atom, useAtom } from "jotai";
-import { useState } from "react";
 
 import { ReceiverText, StreamerText } from "@/models";
 
-const receivedTextAtom = atom<string[]>([]);
+const clientTextAtom = atom<StreamerText>("");
+const receivedTextAtom = atom<ReceiverText>([]);
 export const useDiary = () => {
-    const [clientText, setClientText] = useState<StreamerText>("");
+    const [clientText, setClientText] = useAtom<StreamerText>(clientTextAtom);
     const [receivedText, setReceivedText] = useAtom<ReceiverText>(receivedTextAtom);
 
     return {
