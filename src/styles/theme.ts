@@ -166,8 +166,8 @@ export const theme = createTheme({
         xs: "calc(0.75rem * var(--mantine-scale))",
         sm: "calc(0.875rem * var(--mantine-scale))",
         md: "calc(1rem * var(--mantine-scale))",
-        lg: "calc(1.125rem * var(--mantine-scale))",
-        xl: "calc(1.25rem * var(--mantine-scale))",
+        lg: "calc(1.25rem * var(--mantine-scale))",
+        xl: "calc(1.5rem * var(--mantine-scale))",
     },
     lineHeights: {
         xs: "1.4",

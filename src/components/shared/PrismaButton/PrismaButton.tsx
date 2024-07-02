@@ -21,7 +21,7 @@ export const PrismaButton: FC<props> = (props) => {
                     label: buttonLabelStyle,
                 }}
             >
-                <IconComponent />
+                <IconComponent style={{ width: "auto", height: "20%" }} />
             </Button>
         </Tooltip>
     );
