@@ -13,6 +13,7 @@ export const useEndModal = () => {
     const handleClick = useCallback(() => {
         diaryHandler.handleInit();
     }, [diaryHandler]);
+
     return {
         isEndModalOpen,
         handler: { handleClick, handleClose },
