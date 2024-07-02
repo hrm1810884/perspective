@@ -10,6 +10,8 @@ import { useStartModal } from "./hooks";
 
 import { PrismaButton, SelectModal } from "@/components/shared";
 
+import { groupStyle } from "./StartModal.css";
+
 interface StartModalProps {}
 
 export const StartModal: FC<StartModalProps> = ({}) => {
@@ -28,7 +30,7 @@ export const StartModal: FC<StartModalProps> = ({}) => {
             mainText="体験を始めます"
             subText="体験を開始する方法を選んでください．自分で書く前にデモを確認することもできます．"
         >
-            <Group mt="4rem" style={{ display: "flex", justifyContent: "center" }}>
+            <Group mt="4rem" classNames={{ root: groupStyle }}>
                 {experienceDataList.map((experienceData) => {
                     return (
                         <PrismaButton

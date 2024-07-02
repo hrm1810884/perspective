@@ -9,10 +9,16 @@ export const wrapper = style({
     height: "100vh",
 });
 
-export const textAreaStyle = style({
+export const textAreaRootStyle = style({
     display: "flex",
     width: "100vw",
-    height: "95vh",
+    flexGrow: 1,
+});
+
+export const textAreaInputStyle = style({
+    display: "flex",
+    width: "100vw",
+    height: "100%",
     fontSize: vars.fontSizes.xl,
 });
 
@@ -21,10 +27,12 @@ export const controlAreaStyle = style({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100vw",
-    height: "5vh",
+    height: "fit-content",
+    minHeight: "50px",
 });
 
 export const buttonStyle = style({
     display: "flex",
-    marginTop: "1rem",
+    fontSize: vars.fontSizes.xl,
+    minHeight: "100%",
 });

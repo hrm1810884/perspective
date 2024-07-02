@@ -1,17 +1,21 @@
 import { style } from "@vanilla-extract/css";
 
 export const buttonRootStyle = style({
-    width: "80px",
-    height: "92px",
+    display: "flex",
+    flexBasis: 0,
+    flexGrow: 1,
+    width: "100%",
+    maxWidth: "200px",
+    height: "auto",
+    aspectRatio: "1 / 1.2",
     background:
         "conic-gradient(from 0deg, #ffffff, #B1B1B1, #ffffff, #B1B1B1,#ffffff, #B1B1B1,#ffffff)",
     color: "#111111",
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
     position: "relative",
-    margin: "0 1rem",
+    margin: "1rem 0.5rem",
     transition: "all 0.3s ease",
     filter: "drop-shadow(0 0px 10px rgba(0, 0, 0, 0.1))",
     ":hover": {

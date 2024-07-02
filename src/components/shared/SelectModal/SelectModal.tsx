@@ -3,6 +3,13 @@
 import { Modal, Text } from "@mantine/core";
 import { FC, ReactNode } from "react";
 
+import {
+    textStyle,
+    titleStyle,
+} from "@/components/page/StreamerPage/components/StartModal/StartModal.css";
+
+import { modalBodyStyle, modalContentStyle } from "./SelectModal.css";
+
 type props = {
     isOpen: boolean;
     mainText: string;
@@ -22,8 +29,9 @@ export const SelectModal: FC<props> = (props) => {
             title={mainText}
             centered
             withCloseButton={!!onClose}
+            classNames={{ content: modalContentStyle, body: modalBodyStyle, title: titleStyle }}
         >
-            <Text>{subText}</Text>
+            <Text className={textStyle}>{subText}</Text>
             {children}
         </Modal>
     );
