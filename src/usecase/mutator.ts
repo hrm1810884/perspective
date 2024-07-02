@@ -1,12 +1,7 @@
 import { mutateText } from "@/generated/api";
 import { MutateTextBody } from "@/generated/model";
 
-import {
-    ResultError as UsecaseError,
-    ResultMethod as UsecaseMethod,
-    ResultOk as UsecaseOk,
-    guardUndef,
-} from "@/utils";
+import { UsecaseError, UsecaseMethod, UsecaseOk, guardUndef } from "@/utils";
 
 export const sendTextToAI = (async (text: string[], id: number, mutatedLength: number) => {
     const reqBody: MutateTextBody = {
