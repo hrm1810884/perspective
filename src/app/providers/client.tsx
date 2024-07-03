@@ -7,6 +7,8 @@ import { Flip, ToastContainer } from "react-toastify";
 
 import { getBaseUrl } from "@/utils";
 
+import "react-toastify/dist/ReactToastify.css";
+
 const store = createStore();
 
 export default function ClientProvider({ children }: { children: React.ReactNode }) {

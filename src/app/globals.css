@@ -22,7 +22,3 @@ a {
     color: inherit;
     text-decoration: none;
 }
-
-.ToastContainer {
-    z-index: 10000 !important;
-}
