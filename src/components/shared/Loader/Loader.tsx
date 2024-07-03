@@ -10,8 +10,9 @@ export const Loader: FC<Props> = ({ children }) => {
         <Suspense
             fallback={
                 <>
+                    {console.log("hoge")}
                     <LoadingOverlay
-                        zIndex={1000}
+                        zIndex={10000}
                         visible
                         overlayProps={{ radius: "lg", blur: 12 }}
                     />

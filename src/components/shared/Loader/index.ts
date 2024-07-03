@@ -1,2 +1,2 @@
 export { Loader } from "./Loader";
-export { OverlayLoading } from "./overLoading";
+export { OverlayLoading } from "./OverLoading";
