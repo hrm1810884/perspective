@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 
 import { StreamerText } from "@/models";
-import { useDiary } from "@/states/diary";
+import { useDiary, useTypingSound } from "@/states/";
 import { useStreamService } from "@/usecase";
 import { guardUndef } from "@/utils";
 
@@ -10,6 +10,9 @@ export const useStreamer = () => {
     const {
         client: { clientText, setClientText },
     } = useDiary();
+    const {
+        handler: { handleTypingSound },
+    } = useTypingSound();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -22,13 +25,14 @@ export const useStreamer = () => {
 
     const handleInputChange = useCallback(
         (streamerText: StreamerText) => {
+            handleTypingSound();
             updateText(streamerText);
             sendToServer({
                 text: streamerText,
                 cursorPosition: guardUndef(textareaRef.current?.selectionStart),
             });
         },
-        [updateText, sendToServer]
+        [updateText, sendToServer, handleTypingSound]
     );
 
     const handleReset = useCallback(() => {

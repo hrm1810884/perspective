@@ -42,7 +42,8 @@
     "react-webcam": "^7.2.0",
     "socket.io": "^4.7.5",
     "stylelint-config-standard-scss": "^13.1.0",
-    "ts-pattern": "^5.1.2"
+    "ts-pattern": "^5.1.2",
+    "use-sound": "^4.0.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

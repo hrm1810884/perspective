@@ -1,15 +1,14 @@
 import { useCallback, useRef } from "react";
 import { match } from "ts-pattern";
 
-import { convertStreamerTextToReceiverText } from "@/models";
-import { useMutationStates } from "@/states";
-import { useDiary } from "@/states/diary";
+import { ReceiverId, convertStreamerTextToReceiverText } from "@/models";
+import { useDiary, useMutationStates, useTypingSound } from "@/states";
 import { sendTextToAI } from "@/usecase";
 import { guardRecursiveUndef, guardUndef } from "@/utils";
 
 const FETCH_COUNT = 5;
 
-export const useReceiver = (receiverId: number) => {
+export const useReceiver = (receiverId: ReceiverId) => {
     const {
         receiver: { receivedText, setReceivedText },
     } = useDiary();
@@ -17,6 +16,9 @@ export const useReceiver = (receiverId: number) => {
         mutationState,
         mutator: { lockMutation, unlockMutation },
     } = useMutationStates();
+    const {
+        handler: { handleTypingSound },
+    } = useTypingSound(receiverId);
 
     const clientTextRef = useRef<string>("");
 
@@ -64,6 +66,7 @@ export const useReceiver = (receiverId: number) => {
     );
 
     const handleInputChange = useCallback(async () => {
+        handleTypingSound();
         const clientText = guardUndef(clientTextRef.current);
         const convertedClientText = convertStreamerTextToReceiverText(clientText);
         // 句読点と改行の数をカウント
@@ -76,7 +79,7 @@ export const useReceiver = (receiverId: number) => {
             console.log(`句点または改行が5回以上入力されました。: ${mutateTarget}`);
             await mutateText(mutateTarget);
         }
-    }, [mutationState, mutateText]);
+    }, [mutationState, mutateText, handleTypingSound]);
 
     return {
         clientTextRef,
