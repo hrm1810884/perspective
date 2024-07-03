@@ -2,14 +2,17 @@ import { useCallback } from "react";
 import { match } from "ts-pattern";
 
 import { PrivacyLevel } from "@/models";
-import { useExperenceStates } from "@/states";
+import { useExperenceStates, useOverlayLoadingState } from "@/states";
 import { saveDiary } from "@/usecase";
+import { showToast } from "@/utils/toast";
 
 import { useStreamer } from "../../hooks";
 
 export const useEndModal = () => {
     const { experienceState, diaryHandler } = useExperenceStates();
     const { clientText } = useStreamer();
+    const { runWithLoading } = useOverlayLoadingState();
+
     const isEndModalOpen = experienceState.stage === "finish";
 
     const handleClose = useCallback(() => {
@@ -22,16 +25,22 @@ export const useEndModal = () => {
 
     const handleSave = useCallback(
         async (privacyLevel: PrivacyLevel) => {
-            const res = await saveDiary(clientText, privacyLevel);
+            const runSaveWithLoading = runWithLoading(
+                async (text: string, privacy: PrivacyLevel) => await saveDiary(text, privacy)
+            );
+
+            const res = await runSaveWithLoading(clientText, privacyLevel);
+
             match(res)
                 .with({ status: "ok" }, () => {
+                    showToast({ message: "保存が完了しました", type: "success" });
                     diaryHandler.handleInit();
                 })
                 .with({ status: "err" }, () => {
-                    console.error(res.err);
+                    showToast({ message: "保存に失敗しました", type: "error" });
                 });
         },
-        [clientText, diaryHandler]
+        [clientText, diaryHandler, runWithLoading]
     );
 
     return {

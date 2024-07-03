@@ -9,6 +9,7 @@ import ServerProviders from "./providers/server";
 // import { ErrorHandler, Loader } from "@/components/common/functional";
 // import { GlobalStateProvider } from "@/components/common/states/globalStates";
 
+import { ErrorHandler, Loader } from "@/components/shared";
 import "@mantine/core/styles.css";
 import "./globals.css";
 
@@ -30,7 +31,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </head>
             <body className={notoSansJP.className}>
                 <ServerProviders>
-                    <ClientProviders>{children}</ClientProviders>
+                    <ClientProviders>
+                        <ErrorHandler>
+                            <Loader>{children}</Loader>
+                        </ErrorHandler>
+                    </ClientProviders>
                 </ServerProviders>
             </body>
         </html>

@@ -30,6 +30,7 @@ export const SelectModal: FC<props> = (props) => {
             centered
             withCloseButton={!!onClose}
             classNames={{ content: modalContentStyle, body: modalBodyStyle, title: titleStyle }}
+            style={{ zIndex: 50 }}
         >
             <Text className={textStyle}>{subText}</Text>
             {children}
