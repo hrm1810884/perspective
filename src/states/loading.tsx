@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable unused-imports/no-unused-vars */
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
 
@@ -15,20 +17,23 @@ export const useOverlayLoadingState = () => {
     }, [setOverlayLoading]);
 
     const runWithLoading = useCallback(
-        (func: () => Promise<unknown>) => async () => {
-            console.log("hoge");
-            show();
-            try {
-                await func();
-            } finally {
-                hide();
-            }
-        },
+        <Args extends unknown[], R>(func: (...args: Args) => Promise<R>) =>
+            async (...args: Args): Promise<R> => {
+                show();
+                try {
+                    const res = await func(...args);
+                    return res;
+                } finally {
+                    hide();
+                }
+            },
         [show, hide]
     );
 
     return {
         isShown: overlayLoading,
+        show,
+        hide,
         runWithLoading,
     };
 };
