@@ -32,8 +32,6 @@ export const useOverlayLoadingState = () => {
 
     return {
         isShown: overlayLoading,
-        show,
-        hide,
         runWithLoading,
     };
 };
