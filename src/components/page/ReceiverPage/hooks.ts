@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { match } from "ts-pattern";
 
 import { ReceiverId, convertStreamerTextToReceiverText } from "@/models";
-import { useDiary, useMutationStates, useTypingSound } from "@/states";
+import { useDiary, useMutationStates, useTyping } from "@/states";
 import { sendTextToAI } from "@/usecase";
 import { guardRecursiveUndef, guardUndef } from "@/utils";
 
@@ -18,7 +18,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
     } = useMutationStates();
     const {
         handler: { handleShortTypingSound },
-    } = useTypingSound(receiverId);
+    } = useTyping(receiverId);
 
     const clientTextRef = useRef<string>("");
 

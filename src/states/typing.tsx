@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { match } from "ts-pattern";
 import useSound from "use-sound";
 
@@ -8,6 +8,7 @@ import { delay } from "@/utils";
 import { useDiary } from "./diary";
 
 export const useTyping = (id?: ReceiverId) => {
+    const [isAudioContextAllowed, setIsAudioContextAllowed] = useState<boolean>(false);
     const {
         client: { setClientText },
     } = useDiary();
@@ -23,6 +24,10 @@ export const useTyping = (id?: ReceiverId) => {
     const [playSecoundary] = useSound(secondarySoundFile, { volume });
 
     const audioCountRef = useRef<number>(0);
+
+    const allowAudioContext = useCallback(() => {
+        setIsAudioContextAllowed(true);
+    }, [setIsAudioContextAllowed]);
 
     const handleShortTypingSound = useCallback(async () => {
         await delay(delayTime);
@@ -50,6 +55,10 @@ export const useTyping = (id?: ReceiverId) => {
     );
 
     return {
+        isAudioContextAllowed,
+        mutator: {
+            allowAudioContext,
+        },
         handler: {
             handleShortTypingSound,
             handleTypingText,

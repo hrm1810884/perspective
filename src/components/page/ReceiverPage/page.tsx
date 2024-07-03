@@ -9,6 +9,8 @@ import { useReceiveService } from "@/usecase";
 
 import { useReceiver } from "./hooks";
 
+import { AudioValidateModal } from "./components";
+
 export const ReceiverPage = () => {
     const params = useParams();
     const id = parseInt(params.id[0], 10) as ReceiverId;
@@ -38,6 +40,7 @@ export const ReceiverPage = () => {
 
     return (
         <div>
+            <AudioValidateModal />
             <div>{receivedText}</div>
         </div>
     );
