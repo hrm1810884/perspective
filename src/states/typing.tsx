@@ -3,9 +3,14 @@ import { match } from "ts-pattern";
 import useSound from "use-sound";
 
 import { ReceiverId, keyboardSettingById } from "@/models";
+import { delay } from "@/utils";
 
 export const useTypingSound = (id?: ReceiverId) => {
-    const { type: keyboardType, volume } = keyboardSettingById[id === undefined ? "client" : id];
+    const {
+        type: keyboardType,
+        volume,
+        delay: delayTime,
+    } = keyboardSettingById[id === undefined ? "client" : id];
     const primarySoundFile = `/typing-${keyboardType}-primary.mp3`;
     const secondarySoundFile = `/typing-${keyboardType}-secondary.mp3`;
 
@@ -14,7 +19,8 @@ export const useTypingSound = (id?: ReceiverId) => {
 
     const audioCountRef = useRef<number>(0);
 
-    const handleTypingSound = useCallback(() => {
+    const handleTypingSound = useCallback(async () => {
+        await delay(delayTime);
         match(audioCountRef.current)
             .with(0, () => {
                 playPrimary();
@@ -24,7 +30,7 @@ export const useTypingSound = (id?: ReceiverId) => {
                 playSecoundary();
                 audioCountRef.current = 0;
             });
-    }, [audioCountRef, playPrimary, playSecoundary]);
+    }, [audioCountRef, playPrimary, playSecoundary, delayTime]);
 
     return {
         handler: {
