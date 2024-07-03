@@ -5,7 +5,12 @@ import useSound from "use-sound";
 import { ReceiverId, keyboardSettingById } from "@/models";
 import { delay } from "@/utils";
 
-export const useTypingSound = (id?: ReceiverId) => {
+import { useDiary } from "./diary";
+
+export const useTyping = (id?: ReceiverId) => {
+    const {
+        client: { setClientText },
+    } = useDiary();
     const {
         type: keyboardType,
         volume,
@@ -19,7 +24,7 @@ export const useTypingSound = (id?: ReceiverId) => {
 
     const audioCountRef = useRef<number>(0);
 
-    const handleTypingSound = useCallback(async () => {
+    const handleShortTypingSound = useCallback(async () => {
         await delay(delayTime);
         match(audioCountRef.current)
             .with(0, () => {
@@ -32,9 +37,22 @@ export const useTypingSound = (id?: ReceiverId) => {
             });
     }, [audioCountRef, playPrimary, playSecoundary, delayTime]);
 
+    const handleTypingText = useCallback(
+        async (text: string) => {
+            for (let index = 0; index <= text.length; index++) {
+                setClientText(text.slice(0, index));
+                const randomDelay = Math.random() * 300;
+                console.log(randomDelay);
+                await delay(randomDelay);
+            }
+        },
+        [setClientText]
+    );
+
     return {
         handler: {
-            handleTypingSound,
+            handleShortTypingSound,
+            handleTypingText,
         },
     };
 };

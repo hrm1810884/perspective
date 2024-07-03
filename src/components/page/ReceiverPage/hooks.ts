@@ -17,7 +17,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
         mutator: { lockMutation, unlockMutation },
     } = useMutationStates();
     const {
-        handler: { handleTypingSound },
+        handler: { handleShortTypingSound },
     } = useTypingSound(receiverId);
 
     const clientTextRef = useRef<string>("");
@@ -66,7 +66,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
     );
 
     const handleInputChange = useCallback(async () => {
-        handleTypingSound();
+        handleShortTypingSound();
         const clientText = guardUndef(clientTextRef.current);
         const convertedClientText = convertStreamerTextToReceiverText(clientText);
         // 句読点と改行の数をカウント
@@ -79,7 +79,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
             console.log(`句点または改行が5回以上入力されました。: ${mutateTarget}`);
             await mutateText(mutateTarget);
         }
-    }, [mutationState, mutateText, handleTypingSound]);
+    }, [mutationState, mutateText, handleShortTypingSound]);
 
     return {
         clientTextRef,
