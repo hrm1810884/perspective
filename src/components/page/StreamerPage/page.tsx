@@ -8,7 +8,7 @@ import { useExperenceStates, useTyping } from "@/states";
 import { demoInput } from "./consts";
 import { useStreamer } from "./hooks";
 
-import { ExperienceModal } from "./components/ExperienceModal";
+import { ExperienceModal, FinishModal } from "./components";
 
 import {
     buttonStyle,
@@ -94,7 +94,12 @@ export const StreamerPage = () => {
 
     return (
         <div className={wrapper}>
-            <ExperienceModal />
+            <>
+                {(experienceState.stage === "demo" || experienceState.stage === "diary") && (
+                    <ExperienceModal />
+                )}
+            </>
+            <>{experienceState.stage === "finish" && <FinishModal />}</>
             <Textarea
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
                 value={clientText}

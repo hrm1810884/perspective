@@ -1,3 +1,2 @@
-export { DemoModal } from "./DemoModal";
-export { EndModal } from "./EndModal";
-export { StartModal } from "./StartModal";
+export { ExperienceModal } from "./ExperienceModal";
+export { FinishModal } from "./FinishModal";
