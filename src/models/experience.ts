@@ -1,15 +1,6 @@
-export const experienceDataList = [
-    {
-        mode: "Diary",
-        stages: ["init", "experience", "finish"],
-        label: "体験",
-    },
-    {
-        mode: "Demo",
-        stages: ["init", "select", "experience"],
-        label: "デモ",
-    },
-] as const;
+const experienceStages = ["demo", "diary", "finish"] as const;
+
+export type ExperienceStage = (typeof experienceStages)[number];
 
 export const demoSelectionList = [
     { label: "本の下心", key: "book", value: "study" },
@@ -18,27 +9,12 @@ export const demoSelectionList = [
     { label: "鉛筆の本音", key: "pencil", value: "pencil" },
 ] as const;
 
-export type ExperienceMode = (typeof experienceDataList)[number]["mode"];
-export type ExperienceStages = {
-    [K in ExperienceMode]: Extract<
-        (typeof experienceDataList)[number],
-        { mode: K }
-    >["stages"][number];
-};
-
-// 条件付き型を使用して、modeに応じたstage型を決定
-type ModeToStage<M extends ExperienceMode> = ExperienceStages[M];
-
-export type ExperienceModeState<M extends ExperienceMode | null> = {
-    mode: M;
-    stage: M extends null ? "init" : ModeToStage<NonNullable<M>>;
-    selection?: DemoSelection;
-};
-
 export type DemoSelection = (typeof demoSelectionList)[number];
 
-export type ExperienceState =
-    | {
-          [M in ExperienceMode]: ExperienceModeState<M>;
-      }[ExperienceMode]
-    | ExperienceModeState<null>;
+export type DemoSelectionByStage<S extends ExperienceStage> = S extends "demo"
+    ? DemoSelection | null
+    : null;
+
+export type ExperienceState = {
+    [S in ExperienceStage]: { stage: S; demoSelection: DemoSelectionByStage<S>; isActive: boolean };
+}[ExperienceStage];
