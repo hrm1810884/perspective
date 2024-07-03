@@ -10,7 +10,6 @@ export const Loader: FC<Props> = ({ children }) => {
         <Suspense
             fallback={
                 <>
-                    {console.log("hoge")}
                     <LoadingOverlay
                         zIndex={10000}
                         visible

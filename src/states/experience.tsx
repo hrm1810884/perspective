@@ -1,7 +1,8 @@
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
+import { match } from "ts-pattern";
 
-import { DemoSelection, ExperienceState } from "@/models";
+import { DemoSelection, ExperienceStage, ExperienceState } from "@/models";
 
 const defaultExperienceState: ExperienceState = {
     stage: "demo",
@@ -13,32 +14,41 @@ const experienceStateAtom = atom<ExperienceState>(defaultExperienceState);
 export const useExperenceStates = () => {
     const [experienceState, setExperienceState] = useAtom(experienceStateAtom);
 
-    const initializeExperience = useCallback(() => {
-        setExperienceState(defaultExperienceState);
-    }, [setExperienceState]);
+    const setStage = useCallback(
+        (stage: ExperienceStage) => {
+            setExperienceState({ stage: stage, demoSelection: null, isActive: false });
+        },
+        [setExperienceState]
+    );
 
-    const selectDemo = useCallback(
+    const activateExperienceWithSelection = useCallback(
         (select: DemoSelection) => {
-            setExperienceState({ stage: "demo", demoSelection: select, isActive: false });
+            setExperienceState({ stage: "demo", demoSelection: select, isActive: true });
         },
         [setExperienceState]
     );
 
     const activateExperience = useCallback(() => {
-        setExperienceState((prev) => ({ ...prev, isActive: true }));
+        setExperienceState({ stage: "diary", demoSelection: null, isActive: true });
     }, [setExperienceState]);
 
-    const finishExperience = useCallback(() => {
-        setExperienceState({ stage: "finish", demoSelection: null, isActive: false });
-    }, [setExperienceState]);
+    const stageSwitcher = useCallback(
+        <T,>({ diary, demo }: { diary: T; demo: T }): T => {
+            return match(experienceState.stage)
+                .with("diary", () => diary)
+                .with("demo", () => demo)
+                .run();
+        },
+        [experienceState.stage]
+    );
 
     return {
         experienceState,
+        stageSwitcher,
         mutator: {
-            initializeExperience,
-            selectDemo,
+            setStage,
+            activateExperienceWithSelection,
             activateExperience,
-            finishExperience,
         },
     };
 };
