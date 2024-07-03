@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 
 import { StreamerText } from "@/models";
-import { useDiary } from "@/states/diary";
+import { useDiary } from "@/states/";
 import { useStreamService } from "@/usecase";
 import { guardUndef } from "@/utils";
 
