@@ -1,4 +1,4 @@
-const experienceStages = ["demo", "diary", "finish"] as const;
+const experienceStages = ["demo", "diary"] as const;
 
 export type ExperienceStage = (typeof experienceStages)[number];
 
@@ -16,5 +16,5 @@ export type DemoSelectionByStage<S extends ExperienceStage> = S extends "demo"
     : null;
 
 export type ExperienceState = {
-    [S in ExperienceStage]: { stage: S; demoSelection: DemoSelectionByStage<S>; isActive: boolean };
+    [S in ExperienceStage]: { stage: S; demoSelection: DemoSelectionByStage<S> };
 }[ExperienceStage];
