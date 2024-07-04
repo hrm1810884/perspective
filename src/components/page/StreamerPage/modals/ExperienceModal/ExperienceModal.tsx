@@ -4,7 +4,7 @@ import { Group, Modal, Text } from "@mantine/core";
 import { IconApple, IconBook, IconBrush, IconPencil } from "@tabler/icons-react";
 import React, { FC, useEffect } from "react";
 
-import { DemoSelection, ExperienceStage, demoSelectionList } from "@/models";
+import { DemoSelection, demoSelectionList } from "@/models";
 import { useExperenceStates } from "@/states";
 import { stageSwitcher } from "@/utils";
 
@@ -20,10 +20,9 @@ import {
     titleStyle,
 } from "./ExperienceModal.css";
 
-type props = { stage: ExperienceStage };
-
-export const ExperienceModal: FC<props> = ({ stage }) => {
+export const ExperienceModal: FC<{}> = ({}) => {
     const {
+        experienceState,
         mutator: { selectDemo },
     } = useExperenceStates();
 
@@ -40,15 +39,17 @@ export const ExperienceModal: FC<props> = ({ stage }) => {
     } = useModal();
 
     useEffect(() => {
-        openModal();
-    }, [stage]);
+        if (!experienceState.demoSelection) {
+            openModal();
+        }
+    }, [experienceState]);
 
     return (
         <Modal
             opened={isOpen}
             onClose={() => {}}
             size="lg"
-            title={stageSwitcher(stage, {
+            title={stageSwitcher(experienceState.stage, {
                 demo: "はじめにデモを見ていただけます",
                 diary: "実際に体験してみましょう",
             })}
@@ -62,13 +63,13 @@ export const ExperienceModal: FC<props> = ({ stage }) => {
             style={{ zIndex: 50 }}
         >
             <Text className={textStyle}>
-                {stageSwitcher(stage, {
+                {stageSwitcher(experienceState.stage, {
                     demo: "以下の4種類から選択してください",
                     diary: "ボタンをクリックしてください",
                 })}
             </Text>
             <Group mt="4rem" classNames={{ root: groupStyle }}>
-                {stageSwitcher(stage, {
+                {stageSwitcher(experienceState.stage, {
                     demo: (
                         <>
                             {demoSelectionList.map((selection) => {
