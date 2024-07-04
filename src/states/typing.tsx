@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useRef, useState } from "react";
 import { match } from "ts-pattern";
 import useSound from "use-sound";
@@ -43,12 +44,11 @@ export const useTyping = (id?: ReceiverId) => {
     }, [audioCountRef, playPrimary, playSecoundary, delayTime]);
 
     const handleTypingText = useCallback(
-        async (text: string) => {
-            for (let index = 0; index <= text.length; index++) {
+        (text: string, index: number) => {
+            if (index <= text.length) {
                 setClientText(text.slice(0, index));
                 const randomDelay = Math.random() * 300;
-                console.log(randomDelay);
-                await delay(randomDelay);
+                setTimeout(() => handleTypingText(text, index + 1), randomDelay);
             }
         },
         [setClientText]

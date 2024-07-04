@@ -1,60 +1,36 @@
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
 
-import { DemoSelection, ExperienceMode, ExperienceState } from "@/models";
-import { guardUndef } from "@/utils";
+import { DemoSelection, ExperienceStage, ExperienceState } from "@/models";
 
 const defaultExperienceState: ExperienceState = {
-    mode: null,
-    stage: "init",
+    stage: "demo",
+    demoSelection: null,
 };
-const experienceAtom = atom<ExperienceState>(defaultExperienceState);
+const experienceStateAtom = atom<ExperienceState>(defaultExperienceState);
 
 export const useExperenceStates = () => {
-    const [experienceState, setExperienceState] = useAtom(experienceAtom);
+    const [experienceState, setExperienceState] = useAtom(experienceStateAtom);
 
-    const handleSelectMode = useCallback(
-        (mode: NonNullable<ExperienceMode>) => {
-            setExperienceState((prev) => ({ mode: mode, stage: prev.stage }) as ExperienceState);
-        },
-        [setExperienceState]
-    );
-    const handleInit = useCallback(() => {
-        setExperienceState(defaultExperienceState);
-    }, [setExperienceState]);
-
-    const handleSelectDemo = useCallback(() => {
-        setExperienceState({ mode: "Demo", stage: "select" });
-    }, [setExperienceState]);
-
-    const handleExperience = useCallback(
-        (selection?: DemoSelection) => {
-            setExperienceState((prev) => ({
-                mode: guardUndef(prev.mode),
-                stage: "experience",
-                selection: selection,
-            }));
+    const setStage = useCallback(
+        (stage: ExperienceStage) => {
+            setExperienceState({ stage: stage, demoSelection: null });
         },
         [setExperienceState]
     );
 
-    const handleFinish = useCallback(() => {
-        setExperienceState({ stage: "finish", mode: "Diary" });
-    }, [setExperienceState]);
+    const selectDemo = useCallback(
+        (select: DemoSelection) => {
+            setExperienceState({ stage: "demo", demoSelection: select });
+        },
+        [setExperienceState]
+    );
 
     return {
         experienceState,
-        diaryHandler: {
-            handleInit,
-            handleSelectMode,
-            handleExperience,
-            handleFinish,
-        },
-        demoHandler: {
-            handleInit,
-            handleSelectMode,
-            handleSelectDemo,
-            handleExperience,
+        mutator: {
+            setStage,
+            selectDemo,
         },
     };
 };
