@@ -69,7 +69,10 @@ export const FinishModal: FC<props> = (props) => {
                     2: "保存した内容は，許可された用途以外に用いられることはありません．何かご不明点があれば，担当者にお伝えください．",
                 })}
             </Text>
-            {stageSwitcher(currentStep, { 1: <DisplayButtons />, 2: <SaveButtons /> })}
+            {stageSwitcher(currentStep, {
+                1: <DisplayButtons />,
+                2: <SaveButtons onClick={handleClose} />,
+            })}
             <Group mt="md" justify={currentStep === 1 ? "space-between" : "center"}>
                 {currentStep === 1 && (
                     <Button onClick={handleBackStep} disabled={true} style={{ opacity: 0 }}>
