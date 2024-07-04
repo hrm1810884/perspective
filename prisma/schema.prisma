@@ -19,4 +19,5 @@ model Diary {
   createdAt DateTime @default(now())
   diary     String
   isPublic  Boolean
+  favoriteId Int
 }

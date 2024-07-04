@@ -1,9 +1,9 @@
-import { PrivacyLevel, StreamerText } from "@/models";
+import { PrivacyLevel, SaveItem } from "@/models";
 import { UsecaseError, UsecaseOk } from "@/utils";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const saveDiary = async (text: StreamerText, privacyLevel: PrivacyLevel) => {
+export const saveDiary = async (saveItem: SaveItem, privacyLevel: PrivacyLevel) => {
     try {
         await delay(1000);
         const res = await fetch("/api/save", {
@@ -12,8 +12,9 @@ export const saveDiary = async (text: StreamerText, privacyLevel: PrivacyLevel) 
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                diary: text,
+                diary: saveItem.diary,
                 isPublic: privacyLevel === "public",
+                favoriteId: saveItem.favoriteId,
             }),
         });
         return UsecaseOk(res);
