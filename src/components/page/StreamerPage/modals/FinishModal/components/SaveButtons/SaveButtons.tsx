@@ -6,16 +6,31 @@ import { useSave } from "./hooks";
 
 import { contentContainer } from "./SaveButtons.css";
 
-export const SaveButtons: FC<{}> = ({}) => {
+type props = {
+    onNext: () => void;
+};
+
+export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
     const {
         handler: { handleClick, handleSave },
     } = useSave();
     return (
         <div className={contentContainer}>
-            <Button variant="outline" onClick={handleClick}>
+            <Button
+                variant="outline"
+                onClick={() => {
+                    handleNext();
+                    handleClick();
+                }}
+            >
                 保存しない
             </Button>
-            <Button onClick={async () => await handleSave("private")}>
+            <Button
+                onClick={async () => {
+                    handleNext();
+                    await handleSave("private");
+                }}
+            >
                 保存してもよいが，公開しない
             </Button>
             <Button onClick={async () => await handleSave("public")}>

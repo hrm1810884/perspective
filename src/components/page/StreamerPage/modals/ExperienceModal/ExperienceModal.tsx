@@ -1,6 +1,6 @@
 /* eslint-disable no-empty-pattern */
 "use client";
-import { Group, Modal, Text } from "@mantine/core";
+import { Button, Flex, Group, Modal, Text } from "@mantine/core";
 import { IconApple, IconBook, IconBrush, IconPencil } from "@tabler/icons-react";
 import React, { FC, useEffect } from "react";
 
@@ -23,7 +23,7 @@ import {
 export const ExperienceModal: FC<{}> = ({}) => {
     const {
         experienceState,
-        mutator: { selectDemo },
+        mutator: { selectDemo, setStage },
     } = useExperenceStates();
 
     const iconMap: Record<DemoSelection["key"], React.ElementType> = {
@@ -96,6 +96,17 @@ export const ExperienceModal: FC<{}> = ({}) => {
                     ),
                 })}
             </Group>
+            <Flex justify={"flex-start"}>
+                <Button
+                    onClick={stageSwitcher(experienceState.stage, {
+                        demo: () => setStage("diary"),
+                        diary: () => setStage("demo"),
+                    })}
+                    variant="subtle"
+                >
+                    {"スキップ"}
+                </Button>
+            </Flex>
         </Modal>
     );
 };

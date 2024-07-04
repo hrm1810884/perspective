@@ -28,11 +28,16 @@ export const useSaveStates = () => {
         [setSaveItem]
     );
 
+    const resetSave = useCallback(() => {
+        setSaveItem(defaultSaveItem);
+    }, [setSaveItem]);
+
     return {
         saveItem,
         mutator: {
             saveFavoriteId,
             saveDiaryText,
+            resetSave,
         },
     };
 };

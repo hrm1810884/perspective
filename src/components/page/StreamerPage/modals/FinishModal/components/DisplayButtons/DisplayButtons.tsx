@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { ReceiverId } from "@/models";
 import { useSaveStates } from "@/states/save";
 
-import { buttonList } from "../../consts";
+import { buttonList, isCenter } from "../../consts";
 
 import { buttonContainer, displayButtonStyle, groupStyle } from "./DisplayButtons.css";
 
@@ -25,10 +25,10 @@ export const DisplayButtons = () => {
         <Group mt="4rem" classNames={{ root: groupStyle }}>
             <div className={buttonContainer}>
                 {buttonList.map((info, index) => (
-                    <Tooltip label={info.prompt} key={index}>
+                    <Tooltip label={info.prompt} key={index} disabled={isCenter(info.id)}>
                         <Button
                             className={displayButtonStyle({
-                                isCenter: info.id === -1,
+                                isCenter: isCenter(info.id),
                                 isSelected: info.id === saveItem.favoriteId,
                             })}
                             style={{
@@ -38,7 +38,7 @@ export const DisplayButtons = () => {
                                 height: info.position.height,
                             }}
                             onClick={() => handleDisplayClick(info.id as ReceiverId)}
-                            disabled={info.id === -1}
+                            disabled={isCenter(info.id)}
                         />
                     </Tooltip>
                 ))}

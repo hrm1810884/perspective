@@ -50,3 +50,5 @@ export const buttonList: Array<ButtonInfo> = [
         prompt: "自己拡張的に書き換えてください。",
     },
 ];
+
+export const isCenter = (id: number): boolean => id === -1;
