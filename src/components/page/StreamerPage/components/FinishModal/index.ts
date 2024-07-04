@@ -1,1 +1,0 @@
-export { FinishModal } from "./FinishModal";
