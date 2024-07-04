@@ -14,7 +14,11 @@ export const useExperenceStates = () => {
 
     const setStage = useCallback(
         (stage: ExperienceStage) => {
-            setExperienceState({ stage: stage, demoSelection: null });
+            setExperienceState((prev) => ({
+                ...prev,
+                stage: stage,
+                demoSelection: null,
+            }));
         },
         [setExperienceState]
     );

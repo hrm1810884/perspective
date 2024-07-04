@@ -100,11 +100,7 @@ export const StreamerPage = () => {
     return (
         <div className={wrapper}>
             <OverlayLoading />
-            <>
-                {(experienceState.stage === "demo" || experienceState.stage === "diary") && (
-                    <ExperienceModal stage={experienceState.stage} />
-                )}
-            </>
+            <ExperienceModal />
             <FinishModal
                 isOpen={isFinish && experienceState.stage === "diary"}
                 onClose={closeFinishModal}
