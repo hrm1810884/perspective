@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Tooltip } from "@mantine/core";
 import { useCallback } from "react";
 
 import { ReceiverId } from "@/models";
@@ -25,21 +25,24 @@ export const DisplayButtons = () => {
         <Group mt="4rem" classNames={{ root: groupStyle }}>
             <div className={buttonContainer}>
                 {buttonList.map((info, index) => (
-                    <Button
-                        key={index}
-                        className={displayButtonStyle({ isCenter: info.id === -1 })}
-                        style={{
-                            top: info.position.top,
-                            left: info.position.left,
-                            width: info.position.width,
-                            height: info.position.height,
-                        }}
-                        onClick={() => handleDisplayClick(index as ReceiverId)}
-                        disabled={info.id === -1}
-                    />
+                    <Tooltip label={info.prompt} key={index}>
+                        <Button
+                            className={displayButtonStyle({
+                                isCenter: info.id === -1,
+                                isSelected: info.id === saveItem.favoriteId,
+                            })}
+                            style={{
+                                top: info.position.top,
+                                left: info.position.left,
+                                width: info.position.width,
+                                height: info.position.height,
+                            }}
+                            onClick={() => handleDisplayClick(info.id as ReceiverId)}
+                            disabled={info.id === -1}
+                        />
+                    </Tooltip>
                 ))}
             </div>
-            <Text>{`${saveItem.favoriteId}`}</Text>
         </Group>
     );
 };
