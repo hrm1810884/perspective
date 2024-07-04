@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "check:versions": "node -v | grep 'v18.20.1' && yarn -v | grep '1.22.22'",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
