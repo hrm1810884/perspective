@@ -42,7 +42,7 @@ export const ExperienceModal: FC<{}> = ({}) => {
         if (!experienceState.demoSelection) {
             openModal();
         }
-    }, [experienceState]);
+    }, [experienceState, openModal]);
 
     return (
         <Modal
