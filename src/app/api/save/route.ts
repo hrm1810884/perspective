@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib";
 
 export async function POST(request: Request) {
-    const { diary, isPublic } = await request.json();
+    const { diary, isPublic, favoriteId } = await request.json();
 
     try {
         const newDiary = await prisma.diary.create({
             data: {
                 diary,
                 isPublic,
+                favoriteId,
             },
         });
         return NextResponse.json(newDiary, { status: 200 });
