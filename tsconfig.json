@@ -26,7 +26,8 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "src/components/page/StreamerPage/modals/FinishModal/components/DisplayButtons"
+        "src/components/page/StreamerPage/modals/FinishModal/components/DisplayButtons",
+        "src/components/page/StreamerPage/modals/FinishModal/components/SaveButtons"
     ],
     "exclude": ["node_modules"]
 }

@@ -4,11 +4,12 @@ import { Button, Textarea } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
 import { useExperenceStates, useTyping } from "@/states";
+import { stageSwitcher } from "@/utils";
 
 import { demoInput } from "./consts";
 import { useStreamer } from "./hooks";
-
-import { ExperienceModal, FinishModal } from "./components";
+import { ExperienceModal, FinishModal } from "./modals";
+import { useModal } from "./modals/hooks";
 
 import {
     buttonStyle,
@@ -32,9 +33,13 @@ export const StreamerPage = () => {
 
     const {
         experienceState,
-        stageSwitcher,
         mutator: { setStage },
     } = useExperenceStates();
+
+    const {
+        isOpen: isFinish,
+        mutator: { openModal: openFinishModal, closeModal: closeFinishModal },
+    } = useModal();
 
     const timeoutRef = useRef<number | null>(null);
 
@@ -69,19 +74,17 @@ export const StreamerPage = () => {
             updateWithRandomInterval();
         };
 
-        if (experienceState.stage !== "finish") {
-            handleReset(); // Call handleReset if stage is not "finish"
-        }
-
         if (experienceState.stage === "demo" && experienceState.demoSelection) {
             const demoText = demoInput[experienceState.demoSelection.key];
             startTextUpdate(demoText);
         } else {
             clearExistingTimeout();
+            handleReset();
         }
 
         return () => {
             clearExistingTimeout();
+            handleReset();
         };
     }, [experienceState, updateText, handleReset, demoInput]);
 
@@ -96,10 +99,13 @@ export const StreamerPage = () => {
         <div className={wrapper}>
             <>
                 {(experienceState.stage === "demo" || experienceState.stage === "diary") && (
-                    <ExperienceModal />
+                    <ExperienceModal stage={experienceState.stage} />
                 )}
             </>
-            <>{experienceState.stage === "finish" && <FinishModal />}</>
+            <FinishModal
+                isOpen={isFinish && experienceState.stage === "diary"}
+                onClose={closeFinishModal}
+            />
             <Textarea
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
                 value={clientText}
@@ -114,14 +120,14 @@ export const StreamerPage = () => {
 
             <div className={controlAreaStyle}>
                 {(experienceState.stage === "demo" || experienceState.stage === "diary") &&
-                    stageSwitcher({
+                    stageSwitcher(experienceState.stage, {
                         demo: (
                             <Button onClick={() => setStage("diary")} className={buttonStyle}>
                                 {"デモを終了する"}
                             </Button>
                         ),
                         diary: (
-                            <Button onClick={() => setStage("finish")} className={buttonStyle}>
+                            <Button onClick={openFinishModal} className={buttonStyle}>
                                 {"体験を終了する"}
                             </Button>
                         ),
