@@ -54,16 +54,18 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
     "dotenv-cli": "^7.4.2",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "14.2.3",
     "eslint-plugin-return-type": "latest",
     "eslint-plugin-unused-imports": "latest",
+    "openapi-types": "7.0.0",
     "postcss": "^8.4.38",
     "postcss-nested": "^6.0.1",
     "prettier": "^3.3.0",
     "socket.io-client": "^4.7.5",
     "stylelint": "^16.6.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack": "^5.20.2"
   },
   "packageManager": "yarn@1.22.1",
   "volta": {
