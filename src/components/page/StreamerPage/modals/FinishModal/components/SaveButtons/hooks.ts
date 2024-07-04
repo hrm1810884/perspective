@@ -30,7 +30,7 @@ export const useSave = () => {
             match(res)
                 .with({ status: "ok" }, () => {
                     showToast({ message: "保存が完了しました", type: "success" });
-                    setStage("diary");
+                    setStage("demo");
                 })
                 .with({ status: "err" }, () => {
                     showToast({ message: "保存に失敗しました", type: "error" });
