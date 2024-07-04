@@ -16,6 +16,7 @@ export const indicatorStyle = recipe({
             false: {
                 background:
                     "conic-gradient(from 0deg, #ffffff, #B1B1B1, #ffffff, #B1B1B1,#ffffff, #B1B1B1,#ffffff)",
+                opacity: 0.5,
             },
         },
     },
