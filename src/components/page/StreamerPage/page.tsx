@@ -11,6 +11,8 @@ import { useStreamer } from "./hooks";
 import { ExperienceModal, FinishModal } from "./modals";
 import { useModal } from "./modals/hooks";
 
+import { OverlayLoading } from "@/components/shared/Loader";
+
 import {
     buttonStyle,
     controlAreaStyle,
@@ -97,6 +99,7 @@ export const StreamerPage = () => {
 
     return (
         <div className={wrapper}>
+            <OverlayLoading />
             <>
                 {(experienceState.stage === "demo" || experienceState.stage === "diary") && (
                     <ExperienceModal stage={experienceState.stage} />
