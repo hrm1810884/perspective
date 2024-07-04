@@ -31,6 +31,12 @@ export const FinishModal: FC<props> = (props) => {
         setCurrentStep(finishSteps[nextIndex]);
     };
 
+    const handleBackStep = () => {
+        const currentIndex = finishSteps.indexOf(currentStep);
+        const prevIndex = (currentIndex - 1) % finishSteps.length;
+        setCurrentStep(finishSteps[prevIndex]);
+    };
+
     useEffect(() => {
         if (isOpen) {
             setCurrentStep(1);
@@ -65,7 +71,11 @@ export const FinishModal: FC<props> = (props) => {
             </Text>
             {stageSwitcher(currentStep, { 1: <DisplayButtons />, 2: <SaveButtons /> })}
             <Group mt="md" justify={currentStep === 1 ? "space-between" : "center"}>
-                {currentStep === 1 && <div />}
+                {currentStep === 1 && (
+                    <Button onClick={handleBackStep} disabled={true} style={{ opacity: 0 }}>
+                        Back
+                    </Button>
+                )}
                 <Indicator currentStep={currentStep} />
                 {currentStep === 1 && (
                     <Button onClick={handleNextStep} disabled={saveItem.favoriteId === null}>

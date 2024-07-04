@@ -22,20 +22,29 @@ export const displayButtonStyle = recipe({
     base: {
         position: "absolute",
         borderColor: "black",
-        cursor: "pointer",
     },
     variants: {
         isCenter: {
             true: {
+                cursor: "auto",
                 background: "black",
             },
             false: {
+                cursor: "pointer",
                 background:
                     "conic-gradient(from 0deg, #ffffff, #B1B1B1, #ffffff, #B1B1B1,#ffffff, #B1B1B1,#ffffff)",
                 ":hover": {
                     background:
                         "conic-gradient(from 90deg, #ffffff, #B1B1B1,#96BDD1, #ffffff, #B1B1B1,#E3ED95,#ffffff, #B1B1B1,#91DCB7,#ffffff,#E2B9E1,#ffffff)",
                 },
+            },
+        },
+        isSelected: {
+            true: {
+                borderWidth: "3px",
+            },
+            false: {
+                borderWidth: "1px",
             },
         },
     },

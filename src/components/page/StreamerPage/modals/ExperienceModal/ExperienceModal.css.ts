@@ -6,7 +6,7 @@ export const modalContentStyle = style({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "start",
+    alignItems: "flex-start",
     minWidth: "60vw",
 });
 
