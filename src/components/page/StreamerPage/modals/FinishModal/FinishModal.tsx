@@ -23,7 +23,10 @@ type props = { isOpen: boolean; onClose: () => void };
 export const FinishModal: FC<props> = (props) => {
     const { isOpen, onClose: handleClose } = props;
     const [currentStep, setCurrentStep] = useState<FinishSteps>(1);
-    const { saveItem } = useSaveStates();
+    const {
+        saveItem,
+        mutator: { resetSave },
+    } = useSaveStates();
 
     const handleNextStep = () => {
         const currentIndex = finishSteps.indexOf(currentStep);
@@ -46,7 +49,10 @@ export const FinishModal: FC<props> = (props) => {
     return (
         <Modal
             opened={isOpen}
-            onClose={handleClose}
+            onClose={() => {
+                resetSave();
+                handleClose();
+            }}
             size="lg"
             title={stageSwitcher(currentStep, {
                 1: "どの日記がお好みですか？",
@@ -71,7 +77,14 @@ export const FinishModal: FC<props> = (props) => {
             </Text>
             {stageSwitcher(currentStep, {
                 1: <DisplayButtons />,
-                2: <SaveButtons onClick={handleClose} />,
+                2: (
+                    <SaveButtons
+                        onNext={() => {
+                            handleClose();
+                            resetSave();
+                        }}
+                    />
+                ),
             })}
             <Group mt="md" justify={currentStep === 1 ? "space-between" : "center"}>
                 {currentStep === 1 && (

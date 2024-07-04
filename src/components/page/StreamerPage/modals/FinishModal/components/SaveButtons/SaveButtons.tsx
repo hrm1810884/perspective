@@ -7,10 +7,10 @@ import { useSave } from "./hooks";
 import { contentContainer } from "./SaveButtons.css";
 
 type props = {
-    onClick: () => void;
+    onNext: () => void;
 };
 
-export const SaveButtons: FC<props> = ({ onClick: closeModal }) => {
+export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
     const {
         handler: { handleClick, handleSave },
     } = useSave();
@@ -19,7 +19,7 @@ export const SaveButtons: FC<props> = ({ onClick: closeModal }) => {
             <Button
                 variant="outline"
                 onClick={() => {
-                    closeModal();
+                    handleNext();
                     handleClick();
                 }}
             >
@@ -27,7 +27,7 @@ export const SaveButtons: FC<props> = ({ onClick: closeModal }) => {
             </Button>
             <Button
                 onClick={async () => {
-                    closeModal();
+                    handleNext();
                     await handleSave("private");
                 }}
             >
