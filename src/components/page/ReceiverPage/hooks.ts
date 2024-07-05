@@ -76,7 +76,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
 
         // 5回以上の場合は mutation 実行
         if (count >= FETCH_COUNT && mutationState.stage === "ready") {
-            console.log(`句点または改行が5回以上入力されました。: ${mutateTarget}`);
+            console.log(`句点または改行が${FETCH_COUNT}回以上入力されました。: ${mutateTarget}`);
             await mutateText(mutateTarget);
         }
     }, [mutationState, mutateText, handleShortTypingSound]);
