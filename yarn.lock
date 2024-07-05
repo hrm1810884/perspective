@@ -1806,7 +1806,7 @@
   dependencies:
     "@babel/core" "^7.23.9"
 
-"@vanilla-extract/css@^1.15.2", "@vanilla-extract/css@^1.15.3":
+"@vanilla-extract/css@^1.15.3":
   version "1.15.3"
   resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.15.3.tgz#debf04f61496e290b53f045a2cb6966cc1ba9448"
   integrity sha512-mxoskDAxdQAspbkmQRxBvolUi1u1jnyy9WZGm+GeH8V2wwhEvndzl1QoK7w8JfA0WFevTxbev5d+i+xACZlPhA==
@@ -1841,7 +1841,7 @@
     vite "^5.0.11"
     vite-node "^1.2.0"
 
-"@vanilla-extract/next-plugin@^2.4.1":
+"@vanilla-extract/next-plugin@^2.4.3":
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/@vanilla-extract/next-plugin/-/next-plugin-2.4.3.tgz#6bab9f2f0cfe6774c98ceb7ab2885b91df5bf682"
   integrity sha512-PI/T6eFynyVQdbUhlh9BuggjtmrcKd6uADvDi+bknYL8u//oNUOaAF/KUvepiMEHAcUgxEfDlS4Id/IdP9Agpw==
