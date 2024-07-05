@@ -12,4 +12,5 @@ export const contentContainer = style({
 export const saveButtonStyle = style({
     display: "flex",
     width: "100%",
+    //fontSize : vars.fontSizes.md,
 });

@@ -165,7 +165,7 @@ export const theme = createTheme({
     fontSizes: {
         xs: "calc(0.25rem * var(--mantine-scale))",
         sm: "calc(0.5rem * var(--mantine-scale))",
-        md: "calc(1rem * var(--mantine-scale))",
+        md: "calc(1.5rem * var(--mantine-scale))",
         lg: "calc(2rem * var(--mantine-scale))",
         xl: "calc(4rem * var(--mantine-scale))",
     },

@@ -22,6 +22,7 @@ export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
                     handleNext();
                     handleClick();
                 }}
+                size = "md"
             >
                 保存しない
             </Button>
@@ -30,14 +31,17 @@ export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
                     handleNext();
                     await handleSave("private");
                 }}
+                size = "md"
             >
                 保存してもよいが，公開しない
             </Button>
             <Button
+                color = "green"
                 onClick={async () => {
                     handleNext();
                     await handleSave("public");
                 }}
+                size = "md"
             >
                 保存してもよく，今後の展示で公開しても良い
             </Button>

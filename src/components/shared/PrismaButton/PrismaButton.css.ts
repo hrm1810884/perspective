@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { vars } from "@/styles";
 
 export const buttonRootStyle = style({
     display: "flex",
@@ -35,3 +36,7 @@ export const buttonLabelStyle = style({
         fontSize: "3rem",
     },
 });
+
+export const toolTipStyle = style({
+    fontSize : "1rem",
+})

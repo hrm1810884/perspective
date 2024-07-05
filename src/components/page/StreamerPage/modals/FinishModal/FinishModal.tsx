@@ -94,7 +94,7 @@ export const FinishModal: FC<props> = (props) => {
                 )}
                 <Indicator currentStep={currentStep} />
                 {currentStep === 1 && (
-                    <Button onClick={handleNextStep} disabled={saveItem.favoriteId === null}>
+                    <Button variant = "outline" onClick={handleNextStep} disabled={saveItem.favoriteId === null} style={{fontSize:"1.5rem"}}>
                         Next
                     </Button>
                 )}
