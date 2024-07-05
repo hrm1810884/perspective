@@ -1,6 +1,8 @@
 import { Button, Tooltip } from "@mantine/core";
 import { ElementType, FC, Key } from "react";
 
+import "@mantine/core/styles.css";
+import "@/app/globals.css";
 import { buttonLabelStyle, buttonRootStyle } from "./PrismaButton.css";
 
 type props = {

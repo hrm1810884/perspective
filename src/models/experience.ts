@@ -3,10 +3,10 @@ const experienceStages = ["demo", "diary"] as const;
 export type ExperienceStage = (typeof experienceStages)[number];
 
 export const demoSelectionList = [
-    { label: "本の下心", key: "book", value: "study" },
+    { label: "Prismatic Diary", key: "book", value: "study" },
     { label: "りんごの夢", key: "apple", value: "apple" },
-    { label: "ブラシの逆襲", key: "brush", value: "art" },
-    { label: "鉛筆の本音", key: "pencil", value: "pencil" },
+    { label: "草枕", key: "brush", value: "art" },
+    { label: "私のデイリルーティーン", key: "pencil", value: "pencil" },
 ] as const;
 
 export type DemoSelection = (typeof demoSelectionList)[number];

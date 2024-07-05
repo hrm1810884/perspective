@@ -10,6 +10,7 @@ import { useReceiveService } from "@/usecase";
 import { useReceiver } from "./hooks";
 
 import { AudioValidateModal } from "./components";
+import { wrapper } from "./page.css";
 
 export const ReceiverPage = () => {
     const params = useParams();
@@ -39,9 +40,9 @@ export const ReceiverPage = () => {
     }, [socket, setUpSocket, shutDownSocket]);
 
     return (
-        <div>
+        <div className={wrapper({id:id})}>
             <AudioValidateModal />
-            <div>{receivedText}</div>
+            <div >{receivedText}</div>
         </div>
     );
 };

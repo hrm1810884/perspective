@@ -1,33 +1,34 @@
 import { recipe } from "@vanilla-extract/recipes";
-
 import { vars } from "@/styles";
-
 export const wrapper = recipe({
     base: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        // display: "flex",
+        // justifyContent: "center",
+        // alignItems: "center",
         width: "100vw",
         height: "100vh",
     },
     variants: {
         id: {
             0: {
-                backgroundColor: vars.colors.black,
+                backgroundColor: "black",
                 color: vars.colors.white,
-                fontSize: vars.fontSizes.xl,
+                fontSize: "4rem",
             },
             1: {
-                backgroundColor: vars.colors.primary[0],
-                fontSize: vars.fontSizes.lg,
+                backgroundColor: "orange",
+                color:"black", // "white
+                fontSize: "4rem",
             },
             2: {
-                backgroundColor: vars.colors.white,
-                fontSize: vars.fontSizes.md,
+                backgroundColor:"blue",
+                color:"white",
+                fontSize: "4rem",
             },
             3: {
-                backgroundColor: vars.colors.white,
-                fontSize: vars.fontSizes.sm,
+                backgroundColor: "red",
+                fontSize: "4rem",
+                color:"black"
             },
             4: {
                 backgroundColor: vars.colors.white,
