@@ -6,7 +6,7 @@ import { useDiary, useMutationStates, useTyping } from "@/states";
 import { sendTextToAI } from "@/usecase";
 import { guardRecursiveUndef, guardUndef } from "@/utils";
 
-const FETCH_COUNT = 5;
+const FETCH_COUNT = 2;
 
 export const useReceiver = (receiverId: ReceiverId) => {
     const {
