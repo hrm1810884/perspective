@@ -12,6 +12,7 @@ import { useModal } from "../hooks";
 
 import { PrismaButton } from "@/components/shared";
 
+import { buttonStyle } from "../../page.css";
 import {
     groupStyle,
     modalBodyStyle,
@@ -50,7 +51,7 @@ export const ExperienceModal: FC<{}> = ({}) => {
             onClose={() => {}}
             size="lg"
             title={stageSwitcher(experienceState.stage, {
-                demo: "はじめにデモを見ていただけます",
+                demo: "はじめにデモをご覧いただけます",
                 diary: "実際に体験してみましょう",
             })}
             centered
@@ -96,13 +97,14 @@ export const ExperienceModal: FC<{}> = ({}) => {
                     ),
                 })}
             </Group>
-            <Flex justify={"flex-start"}>
+            <Flex mt="4rem" justify={"flex-end"}>
                 <Button
                     onClick={stageSwitcher(experienceState.stage, {
                         demo: () => setStage("diary"),
                         diary: () => setStage("demo"),
                     })}
                     variant="subtle"
+                    className={buttonStyle}
                 >
                     {"スキップ"}
                 </Button>

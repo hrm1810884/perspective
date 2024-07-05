@@ -25,7 +25,7 @@ export const DisplayButtons = () => {
         <Group mt="4rem" classNames={{ root: groupStyle }}>
             <div className={buttonContainer}>
                 {buttonList.map((info, index) => (
-                    <Tooltip label={info.prompt} key={index} disabled={isCenter(info.id)}>
+                    <Tooltip label={info.prompt} key={index} disabled={isCenter(info.id)} style={{fontSize:"1.5rem"}}>
                         <Button
                             className={displayButtonStyle({
                                 isCenter: isCenter(info.id),

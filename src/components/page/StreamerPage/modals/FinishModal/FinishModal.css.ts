@@ -25,10 +25,10 @@ export const modalBodyStyle = style({
 
 export const titleStyle = style({
     display: "flex",
-    fontSize: vars.fontSizes.xl,
+    fontSize: vars.fontSizes.lg,
 });
 
 export const textStyle = style({
     display: "flex",
-    fontSize: vars.fontSizes.lg,
+    fontSize: vars.fontSizes.md,
 });
