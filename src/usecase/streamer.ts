@@ -8,10 +8,11 @@ export const useStreamService = () => {
     const timeoutRef = useRef<number | null>(null);
 
     const sendToServer = useCallback(
-        (socketMessage: StreamerSocketMessage) => {
+        async (socketMessage: StreamerSocketMessage) => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }
+            console.log(socketMessage);
             // NOTE: windowをつける https://zenn.dev/sa2knight/scraps/76480f90f97497
             timeoutRef.current = window.setTimeout(() => {
                 socket.emit("stream", socketMessage);
