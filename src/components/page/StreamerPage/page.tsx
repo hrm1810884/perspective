@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Button, Textarea } from "@mantine/core";
+import { Button, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
 import { useExperenceStates, useTyping } from "@/states";
@@ -14,6 +14,7 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
+import { IconReload } from "@tabler/icons-react";
 import {
     buttonStyle,
     controlAreaStyle,
@@ -27,7 +28,7 @@ export const StreamerPage = () => {
         textareaRef,
         clientText,
         updateText,
-        handler: { handleInputChange, handleReset },
+        handler: { handleInputChange, handleReset, handleResend },
     } = useStreamer();
 
     const {
@@ -142,11 +143,24 @@ export const StreamerPage = () => {
                             </Button>
                         ),
                     })}
-                {experienceState.stage === "demo" && (
-                    <Button onClick={() => setStage("demo")} className={buttonStyle}>
-                        他のデモを見る
-                    </Button>
-                )}
+                {stageSwitcher(experienceState.stage, {
+                    demo: (
+                        <Button onClick={() => setStage("demo")} className={buttonStyle}>
+                            他のデモを見る
+                        </Button>
+                    ),
+                    diary: (
+                        <Tooltip label="retry" color="blue">
+                            <Button
+                                onClick={async () => await handleResend()}
+                                className={buttonStyle}
+                                variant="subtle"
+                            >
+                                <IconReload />
+                            </Button>
+                        </Tooltip>
+                    ),
+                })}
             </div>
         </div>
     );
