@@ -18,15 +18,15 @@ paths:
                             properties:
                                 clientId:
                                     type: integer
-                                    description: ID of the window where the text is located.
+                                    description: ID of the window where the text is located
                                 mutatedLength:
                                     type: integer
-                                    description: Index of the text to be mutated.
+                                    description: Index of the text to be mutated
                                 targetText:
                                     type: array
                                     items:
                                         type: string
-                                    description: Text to be mutated.
+                                    description: Text to be mutated
                             required:
                                 - clientId
                                 - mutatedLength
@@ -50,6 +50,11 @@ paths:
                                                 items:
                                                     type: string
                                                 description: AI output from BE
+                                            rawContents:
+                                                type: array
+                                                items:
+                                                    type: string
+                                                description: Text to be mutated
                             example:
                                 {
                                     result:

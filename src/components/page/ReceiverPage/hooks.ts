@@ -39,16 +39,18 @@ export const useReceiver = (receiverId: ReceiverId) => {
             const res = await sendTextToAI(targetText, receiverId, mutationState.mutatedLength);
             match(res)
                 .with({ status: "ok" }, () => {
-                    const { mutatedText, mutatedLength: resMutatedLength } = guardRecursiveUndef(
-                        res.val
-                    );
+                    const {
+                        mutatedText,
+                        mutatedLength: resMutatedLength,
+                        rawContents: rawText,
+                    } = guardRecursiveUndef(res.val);
                     const clientText = guardUndef(clientTextRef.current);
                     const convertedClientText = convertStreamerTextToReceiverText(clientText);
 
                     if (
                         convertedClientText
                             .slice(resMutatedLength, resMutatedLength + mutatedText.length)
-                            .join("") === targetText.join("")
+                            .join("") === rawText.join("")
                     ) {
                         updateText(mutatedText);
                         unlockMutation(mutatedText.length);
