@@ -3,7 +3,7 @@ import { useCallback, useRef } from "react";
 import { StreamerText } from "@/models";
 import { useDiary } from "@/states/";
 import { useStreamService } from "@/usecase";
-import { guardUndef } from "@/utils";
+import { delay, guardUndef } from "@/utils";
 
 export const useStreamer = () => {
     const { sendToServer } = useStreamService();
@@ -39,6 +39,20 @@ export const useStreamer = () => {
         });
     }, [updateText, sendToServer]);
 
+    const handleResend = useCallback(async () => {
+        const currentText = clientText;
+        console.log(currentText);
+        sendToServer({
+            text: "",
+            cursorPosition: 0,
+        });
+        await delay(100);
+        sendToServer({
+            text: currentText,
+            cursorPosition: 0,
+        });
+    }, [clientText, handleReset, updateText, sendToServer]);
+
     return {
         textareaRef,
         clientText,
@@ -46,6 +60,7 @@ export const useStreamer = () => {
         handler: {
             handleInputChange,
             handleReset,
+            handleResend,
         },
     };
 };

@@ -28,8 +28,8 @@ export const useReceiveService = (clientTextRef: MutableRefObject<string>) => {
             if (inputIndex < mutationState.mutatedLength) {
                 cancelMutation(inputIndex);
             } else if (
-                inputIndex > mutationState.mutatedLength &&
-                mutationState.stage === "cancel"
+                inputIndex > mutationState.mutatedLength ||
+                (message.cursorPosition === 0 && mutationState.stage === "cancel")
             ) {
                 unlockMutation(0);
             }

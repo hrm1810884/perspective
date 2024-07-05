@@ -1,4 +1,4 @@
-export * from "./consts";
+export * from "./breakChar";
 export { delay } from "./delay";
 export { getBaseUrl } from "./getBaseUrl";
 export { getSocketUrl } from "./getSocketUrl";
