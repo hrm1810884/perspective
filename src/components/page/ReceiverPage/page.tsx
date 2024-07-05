@@ -9,12 +9,15 @@ import { useReceiveService } from "@/usecase";
 
 import { useReceiver } from "./hooks";
 
+import { useMutationStates } from "@/states";
 import { AudioValidateModal } from "./components";
-import { wrapper } from "./page.css";
+import { displayStyle, wrapper } from "./page.css";
 
 export const ReceiverPage = () => {
     const params = useParams();
     const id = parseInt(params.id[0], 10) as ReceiverId;
+
+    const { mutationState } = useMutationStates();
 
     const {
         clientTextRef,
@@ -40,9 +43,13 @@ export const ReceiverPage = () => {
     }, [socket, setUpSocket, shutDownSocket]);
 
     return (
-        <div className={wrapper({id:id})}>
+        <div className={wrapper}>
             <AudioValidateModal />
-            <div >{receivedText}</div>
+            <div
+                className={displayStyle({ id: id, isMutating: mutationState.stage === "pending" })}
+            >
+                {receivedText}
+            </div>
         </div>
     );
 };
