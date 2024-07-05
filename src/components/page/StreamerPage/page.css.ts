@@ -28,11 +28,12 @@ export const controlAreaStyle = style({
     justifyContent: "space-between",
     width: "100vw",
     height: "fit-content",
-    minHeight: "50px",
+    minHeight: "100px",
 });
 
 export const buttonStyle = style({
     display: "flex",
-    fontSize: vars.fontSizes.xl,
+    fontSize: vars.fontSizes.lg,
+    height: "100%",
     minHeight: "100%",
 });
