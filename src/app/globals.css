@@ -4,10 +4,6 @@
     margin: 0;
 }
 
-:root {
-    --toastify-z-index: 9999;
-}
-
 html,
 body {
     max-width: 100vw;

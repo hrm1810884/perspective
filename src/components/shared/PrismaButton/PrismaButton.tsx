@@ -1,3 +1,4 @@
+"use client";
 import { Button, Tooltip } from "@mantine/core";
 import { ElementType, FC, Key } from "react";
 
