@@ -33,7 +33,12 @@ export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
             >
                 保存してもよいが，公開しない
             </Button>
-            <Button onClick={async () => await handleSave("public")}>
+            <Button
+                onClick={async () => {
+                    handleNext();
+                    await handleSave("public");
+                }}
+            >
                 保存してもよく，今後の展示で公開しても良い
             </Button>
         </div>
