@@ -1,42 +1,47 @@
-import { recipe } from "@vanilla-extract/recipes";
 import { vars } from "@/styles";
-export const wrapper = recipe({
+import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
+
+export const wrapper = style({
+    width: "100vw",
+    height: "100vh",
+});
+export const displayStyle = recipe({
     base: {
-        // display: "flex",
-        // justifyContent: "center",
-        // alignItems: "center",
-        width: "100vw",
-        height: "100vh",
+        fontSize: vars.fontSizes.xl,
+        width: "100%",
+        height: "100%",
     },
     variants: {
         id: {
             0: {
                 backgroundColor: "black",
-                color: vars.colors.white,
-                fontSize: "4rem",
+                color: "white",
             },
             1: {
                 backgroundColor: "orange",
-                color:"black", // "white
-                fontSize: "4rem",
+                color: "black",
             },
             2: {
-                backgroundColor:"blue",
-                color:"white",
-                fontSize: "4rem",
+                backgroundColor: "blue",
+                color: "white",
             },
             3: {
                 backgroundColor: "red",
-                fontSize: "4rem",
-                color:"black"
+                color: "black",
             },
-            4: {
-                backgroundColor: vars.colors.white,
-                fontSize: vars.fontSizes.xs,
+        },
+        isMutating: {
+            true: {
+                border: `5px solid rgba(255,255,0,0.7)`,
+            },
+            false: {
+                border: "none",
             },
         },
     },
     defaultVariants: {
         id: 0,
+        isMutating: false,
     },
 });
