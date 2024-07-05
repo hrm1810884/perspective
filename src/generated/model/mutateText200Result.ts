@@ -11,4 +11,6 @@ export type MutateText200Result = {
   mutatedLength?: number;
   /** AI output from BE */
   mutatedText?: string[];
+  /** Text to be mutated */
+  rawContents?: string[];
 };
