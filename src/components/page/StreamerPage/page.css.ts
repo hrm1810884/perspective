@@ -13,14 +13,13 @@ export const textAreaRootStyle = style({
     display: "flex",
     width: "100vw",
     flexGrow: 1,
-    
 });
 
 export const textAreaInputStyle = style({
     display: "flex",
     width: "100vw",
     height: "100%",
-    fontSize: "4rem",
+    fontSize: vars.fontSizes.xl,
 });
 
 export const controlAreaStyle = style({
@@ -29,11 +28,12 @@ export const controlAreaStyle = style({
     justifyContent: "space-between",
     width: "100vw",
     height: "fit-content",
-    minHeight: "50px",
+    minHeight: "100px",
 });
 
 export const buttonStyle = style({
     display: "flex",
-    fontSize: vars.fontSizes.xl,
+    fontSize: vars.fontSizes.lg,
+    height: "100%",
     minHeight: "100%",
 });
