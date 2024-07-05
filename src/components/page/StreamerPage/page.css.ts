@@ -13,14 +13,13 @@ export const textAreaRootStyle = style({
     display: "flex",
     width: "100vw",
     flexGrow: 1,
-    
 });
 
 export const textAreaInputStyle = style({
     display: "flex",
     width: "100vw",
     height: "100%",
-    fontSize: "4rem",
+    fontSize: vars.fontSizes.xl,
 });
 
 export const controlAreaStyle = style({

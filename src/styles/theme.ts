@@ -163,11 +163,11 @@ export const theme = createTheme({
         },
     },
     fontSizes: {
-        xs: "calc(0.75rem * var(--mantine-scale))",
-        sm: "calc(0.875rem * var(--mantine-scale))",
+        xs: "calc(0.25rem * var(--mantine-scale))",
+        sm: "calc(0.5rem * var(--mantine-scale))",
         md: "calc(1rem * var(--mantine-scale))",
-        lg: "calc(1.25rem * var(--mantine-scale))",
-        xl: "calc(1.5rem * var(--mantine-scale))",
+        lg: "calc(2rem * var(--mantine-scale))",
+        xl: "calc(4rem * var(--mantine-scale))",
     },
     lineHeights: {
         xs: "1.4",
@@ -177,11 +177,11 @@ export const theme = createTheme({
         xl: "1.65",
     },
     radius: {
-        xs: "calc(0.25rem * var(--mantine-scale))",
-        sm: "calc(0.5rem * var(--mantine-scale))",
-        md: "calc(1rem * var(--mantine-scale))",
-        lg: "calc(2rem * var(--mantine-scale))",
-        xl: "calc(4rem * var(--mantine-scale))",
+        xs: "calc(0.125rem * var(--mantine-scale))",
+        sm: "calc(0.25rem * var(--mantine-scale))",
+        md: "calc(0.5rem * var(--mantine-scale))",
+        lg: "calc(1rem * var(--mantine-scale))",
+        xl: "calc(2rem * var(--mantine-scale))",
     },
     spacing: {
         xs: "calc(0.625rem * var(--mantine-scale))",
