@@ -67,8 +67,8 @@ export const useReceiver = (receiverId: ReceiverId) => {
         [lockMutation, updateText, unlockMutation, receiverId, mutationState]
     );
 
-    const getLastChar = (text: ReceiverText) => {
-        return text[text.length - 1].slice(-1);
+    const isEndWithBreakChar = (text: ReceiverText) => {
+        return text.length > 0 ? isBreakChar(text[text.length - 1].slice(-1)) : false;
     };
 
     const handleInputChange = useCallback(async () => {
@@ -76,18 +76,18 @@ export const useReceiver = (receiverId: ReceiverId) => {
         const clientText = guardUndef(clientTextRef.current);
         const convertedClientText = convertStreamerTextToReceiverText(clientText);
         // 句読点と改行の数をカウント
-        const mutateTarget = convertedClientText.slice(mutationState.mutatedLength);
+
+        const unmutatetdText = convertedClientText.slice(mutationState.mutatedLength);
+        console.log(unmutatetdText);
+        const mutateTarget = isEndWithBreakChar(unmutatetdText)
+            ? unmutatetdText
+            : unmutatetdText.slice(0, unmutatetdText.length - 1);
         console.log(mutateTarget, mutationState.mutatedLength, mutationState);
         const count = mutateTarget.length;
 
-        if (count === FETCH_COUNT && mutationState.stage === "ready") {
-            const lastChar = getLastChar(mutateTarget);
-            if (isBreakChar(lastChar)) {
-                console.log(
-                    `句点または改行が${FETCH_COUNT}回以上入力されました。: ${mutateTarget}`
-                );
-                await mutateText(mutateTarget);
-            }
+        if (count >= FETCH_COUNT && mutationState.stage === "ready") {
+            console.log(`句点または改行が${FETCH_COUNT}回以上入力されました。: ${mutateTarget}`);
+            await mutateText(mutateTarget);
         }
     }, [mutationState, mutateText, handleShortTypingSound]);
 
