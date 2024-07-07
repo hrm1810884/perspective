@@ -78,7 +78,6 @@ export const useReceiver = (receiverId: ReceiverId) => {
         // 句読点と改行の数をカウント
 
         const unmutatetdText = convertedClientText.slice(mutationState.mutatedLength);
-        console.log(unmutatetdText);
         const mutateTarget = isEndWithBreakChar(unmutatetdText)
             ? unmutatetdText
             : unmutatetdText.slice(0, unmutatetdText.length - 1);
@@ -89,7 +88,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
             console.log(`句点または改行が${FETCH_COUNT}回以上入力されました。: ${mutateTarget}`);
             await mutateText(mutateTarget);
         }
-    }, [mutationState, mutateText, handleShortTypingSound]);
+    }, [mutationState.stage, mutateText, handleShortTypingSound]);
 
     return {
         clientTextRef,
