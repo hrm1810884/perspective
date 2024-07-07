@@ -81,6 +81,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
         const mutateTarget = isEndWithBreakChar(unmutatetdText)
             ? unmutatetdText
             : unmutatetdText.slice(0, unmutatetdText.length - 1);
+        console.log("---ターゲット情報---");
         console.log(mutateTarget, mutationState.mutatedLength, mutationState);
         const count = mutateTarget.length;
 

@@ -12,6 +12,7 @@ export const sendTextToAI = (async (text: string[], id: number, mutatedLength: n
 
     try {
         const res = await mutateText(reqBody);
+        console.log("---レスポンス情報---");
         console.log(res);
         return UsecaseOk(guardUndef(res.data.result));
     } catch (error) {
