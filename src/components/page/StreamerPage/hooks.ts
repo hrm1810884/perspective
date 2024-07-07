@@ -41,7 +41,7 @@ export const useStreamer = () => {
 
     const handleResend = useCallback(async () => {
         const currentText = clientText;
-        console.log(currentText);
+        console.log(`${currentText}を再送`);
         sendToServer({
             text: "",
             cursorPosition: 0,
