@@ -12,7 +12,6 @@ export const useStreamService = () => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }
-            console.log(socketMessage);
             // NOTE: windowをつける https://zenn.dev/sa2knight/scraps/76480f90f97497
             timeoutRef.current = window.setTimeout(() => {
                 socket.emit("stream", socketMessage);
