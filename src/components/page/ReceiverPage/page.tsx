@@ -45,6 +45,7 @@ export const ReceiverPage = () => {
     return (
         <div className={wrapper}>
             <AudioValidateModal />
+            <>{console.log(mutationState.stage)}</>
             <div
                 className={displayStyle({ id: id, isMutating: mutationState.stage === "pending" })}
             >
