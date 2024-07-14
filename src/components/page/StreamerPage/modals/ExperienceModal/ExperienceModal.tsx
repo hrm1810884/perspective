@@ -12,6 +12,7 @@ import { useModal } from "../hooks";
 
 import { PrismaButton } from "@/components/shared";
 
+import { startExperience } from "@/usecase/init";
 import { buttonStyle } from "../../page.css";
 import {
     groupStyle,
@@ -91,7 +92,10 @@ export const ExperienceModal: FC<{}> = ({}) => {
                     diary: (
                         <PrismaButton
                             label={"diary"}
-                            onClick={closeModal}
+                            onClick={() => {
+                                closeModal();
+                                startExperience();
+                            }}
                             IconComponent={IconPencil}
                         />
                     ),

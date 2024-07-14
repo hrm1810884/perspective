@@ -5,6 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type MutateText400 = {
+export type UpdateResult400 = {
   error?: string;
 };

@@ -2,12 +2,48 @@ openapi: 3.0.0
 info:
     title: Text Mutation API
     version: 1.0.0
-    description: API to receive text data and return mutated text.
+
+components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+
+security:
+    - BearerAuth: []
 
 paths:
-    /mutate4:
+    /init:
+        get:
+            summary: Generate a new user ID and return a JWT token
+            operationId: initializeUser
+            responses:
+                "200":
+                    description: Successfully initialized user
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    token:
+                                        type: string
+                                        description: JWT token for the user
+                            example:
+                                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxOTk5OTk5OTk5fQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                "500":
+                    description: Internal server error - user creation failed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Error creating user"
+    /mutate:
         post:
-            summary: mutate a text
+            summary: Mutate a text
             operationId: mutateText
             requestBody:
                 required: true
@@ -44,7 +80,7 @@ paths:
                                         properties:
                                             mutatedLength:
                                                 type: integer
-                                                description: text index in the contents
+                                                description: Text index in the contents
                                             mutatedText:
                                                 type: array
                                                 items:
@@ -56,14 +92,14 @@ paths:
                                                     type: string
                                                 description: Text to be mutated
                             example:
-                                {
-                                    result:
-                                        {
-                                            mutatedLength: 0,
-                                            mutatedText:
-                                                ["hoge.", "fuga.", "piyo.", "blar.", "fooooo."],
-                                        },
-                                }
+                                result:
+                                    mutatedLength: 0
+                                    mutatedText:
+                                        - "hoge."
+                                        - "fuga."
+                                        - "piyo."
+                                        - "blar."
+                                        - "fooooo."
                 "400":
                     description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
                     content:
@@ -85,11 +121,63 @@ paths:
                                         type: string
                                         description: "A detailed error message."
 
-components:
-    securitySchemes:
-        ApiKeyAuth:
-            type: apiKey
-            in: header
-            name: X-Api-Key
-security:
-    - ApiKeyAuth: []
+    /result:
+        post:
+            summary: Update result with given data
+            operationId: updateResult
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                isPublic:
+                                    type: boolean
+                                    description: Whether the result should be public
+                                favoriteId:
+                                    type: integer
+                                    description: ID of the favorite diary entry
+                            required:
+                                - isPublic
+                                - favoriteId
+            responses:
+                "200":
+                    description: Successfully updated result
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: "Success"
+                "400":
+                    description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Invalid input data"
+                "401":
+                    description: Unauthorized - the request requires valid user authentication.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Invalid or missing JWT token"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        description: "A detailed error message."
