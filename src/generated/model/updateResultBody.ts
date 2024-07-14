@@ -7,7 +7,7 @@
 
 export type UpdateResultBody = {
   /** ID of the favorite diary entry */
-  favorite_id: number;
+  favoriteId: number;
   /** Whether the result should be public */
-  is_public: boolean;
+  isPublic: boolean;
 };

@@ -134,15 +134,15 @@ paths:
                         schema:
                             type: object
                             properties:
-                                is_public:
+                                isPublic:
                                     type: boolean
                                     description: Whether the result should be public
-                                favorite_id:
+                                favoriteId:
                                     type: integer
                                     description: ID of the favorite diary entry
                             required:
-                                - is_public
-                                - favorite_id
+                                - isPublic
+                                - favoriteId
             responses:
                 "200":
                     description: Successfully updated result
