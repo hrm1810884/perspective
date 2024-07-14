@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type MutateText400 = {
-  error?: string;
+export type InitializeUser200 = {
+  /** JWT token for the user */
+  token?: string;
 };
