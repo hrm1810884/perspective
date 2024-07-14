@@ -4,7 +4,7 @@ import { match } from "ts-pattern";
 import { PrivacyLevel, SaveItem } from "@/models";
 import { useExperenceStates, useOverlayLoadingState } from "@/states";
 import { useSaveStates } from "@/states/save";
-import { saveDiary } from "@/usecase";
+import { saveResult } from "@/usecase";
 import { showToast } from "@/utils/toast";
 
 export const useSave = () => {
@@ -22,7 +22,7 @@ export const useSave = () => {
         async (privacyLevel: PrivacyLevel) => {
             const runSaveWithLoading = runWithLoading(
                 async (saveItem: SaveItem, privacy: PrivacyLevel) =>
-                    await saveDiary(saveItem, privacy)
+                    await saveResult(saveItem, privacy)
             );
 
             const res = await runSaveWithLoading(saveItem, privacyLevel);

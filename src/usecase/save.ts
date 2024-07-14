@@ -12,7 +12,6 @@ export const saveDiary = async (saveItem: SaveItem, privacyLevel: PrivacyLevel) 
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                diary: saveItem.diary,
                 isPublic: privacyLevel === "public",
                 favoriteId: saveItem.favoriteId,
             }),
