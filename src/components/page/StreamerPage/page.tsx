@@ -14,6 +14,7 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
+import { convertTextToDiary } from "@/models";
 import { IconReload } from "@tabler/icons-react";
 import {
     buttonStyle,
@@ -26,8 +27,8 @@ import {
 export const StreamerPage = () => {
     const {
         textareaRef,
-        clientText,
-        updateText,
+        diaryText,
+        mutator: { updateText },
         handler: { handleInputChange, handleReset, handleResend },
     } = useStreamer();
 
@@ -64,7 +65,7 @@ export const StreamerPage = () => {
 
             const updateWithRandomInterval = () => {
                 if (index <= demoText.length) {
-                    updateText(demoText.slice(0, index));
+                    updateText(convertTextToDiary(demoText.slice(0, index)));
                     index++;
 
                     // Generate a random duration between 100 and 400 ms for the next update
@@ -99,9 +100,9 @@ export const StreamerPage = () => {
     useEffect(() => {
         if (experienceState.stage === "demo" && experienceState.demoSelection) {
             handleShortTypingSound();
-            handleInputChange(clientText);
+            handleInputChange(diaryText);
         }
-    }, [clientText, experienceState]);
+    }, [diaryText, experienceState]);
 
     return (
         <div className={wrapper}>
@@ -113,10 +114,10 @@ export const StreamerPage = () => {
             />
             <Textarea
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
-                value={clientText}
+                value={diaryText.join("")}
                 onChange={(e) => {
                     handleShortTypingSound();
-                    handleInputChange(e.target.value);
+                    handleInputChange(convertTextToDiary(e.target.value));
                 }}
                 placeholder="Write message"
                 ref={textareaRef}
@@ -134,7 +135,7 @@ export const StreamerPage = () => {
                         diary: (
                             <Button
                                 onClick={() => {
-                                    saveDiaryText(clientText);
+                                    saveDiaryText(diaryText);
                                     openFinishModal();
                                 }}
                                 className={buttonStyle}
