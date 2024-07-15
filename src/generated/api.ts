@@ -29,6 +29,7 @@ import type {
 import type {
   InitializeUser200,
   InitializeUser500,
+  MutateText200,
   MutateText400,
   MutateTextBody,
   MutateTextDefault,
@@ -144,7 +145,7 @@ export const useInitializeUserSuspense = <TData = Awaited<ReturnType<typeof init
  */
 export const mutateText = (
     mutateTextBody: MutateTextBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<MutateText200>> => {
     
     return axios.post(
       `/mutate`,

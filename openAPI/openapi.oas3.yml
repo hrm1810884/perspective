@@ -62,6 +62,20 @@ paths:
             responses:
                 "200":
                     description: Successfully mutated text
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    result:
+                                        type: object
+                                        properties:
+                                            mutatedLength:
+                                                type: integer
+                                                description: The index of mutated contents
+                            example:
+                                result:
+                                    mutatedLength: 0
                 "400":
                     description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
                     content:
