@@ -1,13 +1,12 @@
 import { mutateText } from "@/generated/api";
 import { MutateTextBody } from "@/generated/model";
+import { DiaryText } from "@/models";
 
-import { UsecaseError, UsecaseMethod, UsecaseOk, guardUndef } from "@/utils";
+import { guardUndef, UsecaseError, UsecaseMethod, UsecaseOk } from "@/utils";
 
-export const sendTextToAI = (async (text: string[], id: number, mutatedLength: number) => {
+export const sendTextToAI = (async (text: DiaryText) => {
     const reqBody: MutateTextBody = {
         targetText: text,
-        mutatedLength: mutatedLength,
-        clientId: id,
     };
 
     try {
