@@ -2,7 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import axios from "axios";
 import { Provider, createStore } from "jotai";
-import React from "react";
+import React, { useEffect } from "react";
 import { Flip, ToastContainer } from "react-toastify";
 
 import { getBaseUrl } from "@/utils";
@@ -22,18 +22,20 @@ export default function ClientProvider({ children }: { children: React.ReactNode
         axios.defaults.headers.common["x-api-key"] = apiKey;
     }
 
-    axios.interceptors.request.use(
-        (config) => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
+    useEffect(() => {
+        axios.interceptors.request.use(
+            (config) => {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            },
+            (error) => {
+                return Promise.reject(error);
             }
-            return config;
-        },
-        (error) => {
-            return Promise.reject(error);
-        }
-    );
+        );
+    }, []);
 
     const [queryClient] = React.useState(() => new QueryClient());
     return (
