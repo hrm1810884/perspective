@@ -23,7 +23,7 @@ export const useMutationStates = () => {
         (mutatedLength: number) => {
             setMutationState((prev) => ({
                 ...prev,
-                mutatedLength: prev.mutatedLength + mutatedLength,
+                mutatedLength: mutatedLength,
                 stage: "ready",
             }));
         },
