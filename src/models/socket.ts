@@ -1,34 +1,16 @@
+import { DiaryText } from "@/models";
 import { breakChar } from "@/utils";
+import { MutationState } from "./mutate";
 
-export type StreamerText = string;
-export type ReceiverText = string[];
-
-export type StreamerSocketMessage = {
-    text: StreamerText;
-    cursorPosition: number;
+export type SocketMessage = {
+    diary: DiaryText;
+    mutateState: MutationState;
 };
 
-export type ReceiverSocketMessage = {
-    text: ReceiverText;
-    inputIndex: number;
+export const convertTextToDiary = (rawText: string): DiaryText => {
+    return rawText.split(breakChar);
 };
 
-export const convertStreamerTextToReceiverText = (streamerText: StreamerText): ReceiverText => {
-    return streamerText.split(breakChar);
-};
-
-export const convertSocketMessage = (
-    socketMessage: StreamerSocketMessage
-): ReceiverSocketMessage => {
-    const { text: streamerText, cursorPosition } = socketMessage;
-    const receiverText = convertStreamerTextToReceiverText(streamerText);
-
-    const inputIndex = receiverText.findIndex(
-        (str, idx) => receiverText.slice(0, idx + 1).join("").length >= cursorPosition
-    );
-
-    return {
-        text: receiverText,
-        inputIndex,
-    };
+export const convertPosToIndex = (pos: number, diary: DiaryText): number => {
+    return diary.findIndex((str, idx) => diary.slice(0, idx + 1).join("").length >= pos);
 };
