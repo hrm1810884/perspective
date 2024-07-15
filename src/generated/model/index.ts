@@ -7,8 +7,6 @@
 
 export * from './initializeUser200';
 export * from './initializeUser500';
-export * from './mutateText200';
-export * from './mutateText200Result';
 export * from './mutateText400';
 export * from './mutateTextBody';
 export * from './mutateTextDefault';

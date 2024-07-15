@@ -52,54 +52,16 @@ paths:
                         schema:
                             type: object
                             properties:
-                                clientId:
-                                    type: integer
-                                    description: ID of the window where the text is located
-                                mutatedLength:
-                                    type: integer
-                                    description: Index of the text to be mutated
                                 targetText:
                                     type: array
                                     items:
                                         type: string
                                     description: Text to be mutated
                             required:
-                                - clientId
-                                - mutatedLength
                                 - targetText
             responses:
                 "200":
                     description: Successfully mutated text
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    result:
-                                        type: object
-                                        properties:
-                                            mutatedLength:
-                                                type: integer
-                                                description: Text index in the contents
-                                            mutatedText:
-                                                type: array
-                                                items:
-                                                    type: string
-                                                description: AI output from BE
-                                            rawContents:
-                                                type: array
-                                                items:
-                                                    type: string
-                                                description: Text to be mutated
-                            example:
-                                result:
-                                    mutatedLength: 0
-                                    mutatedText:
-                                        - "hoge."
-                                        - "fuga."
-                                        - "piyo."
-                                        - "blar."
-                                        - "fooooo."
                 "400":
                     description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
                     content:
