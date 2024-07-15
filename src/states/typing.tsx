@@ -3,16 +3,16 @@ import { useCallback, useRef, useState } from "react";
 import { match } from "ts-pattern";
 import useSound from "use-sound";
 
-import { ReceiverId, keyboardSettingById } from "@/models";
+import { ReceiverId, convertTextToDiary, keyboardSettingById } from "@/models";
 import { delay } from "@/utils";
 
-import { useDiary } from "./diary";
+import { useMutationStates } from "./mutation";
 
 export const useTyping = (id?: ReceiverId) => {
     const [isAudioContextAllowed, setIsAudioContextAllowed] = useState<boolean>(false);
     const {
-        client: { setClientText },
-    } = useDiary();
+        mutator: { updateText },
+    } = useMutationStates();
     const {
         type: keyboardType,
         volume,
@@ -46,12 +46,12 @@ export const useTyping = (id?: ReceiverId) => {
     const handleTypingText = useCallback(
         (text: string, index: number) => {
             if (index <= text.length) {
-                setClientText(text.slice(0, index));
+                updateText(convertTextToDiary(text.slice(0, index)));
                 const randomDelay = Math.random() * 300;
                 setTimeout(() => handleTypingText(text, index + 1), randomDelay);
             }
         },
-        [setClientText]
+        [updateText]
     );
 
     return {

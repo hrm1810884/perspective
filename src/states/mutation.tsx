@@ -3,9 +3,10 @@
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
 
-import { MutationState } from "@/models";
+import { DiaryText, MutationState } from "@/models";
 
 const defaultMutationState: MutationState = {
+    diary: [],
     stage: "ready",
     mutatedLength: 0,
 };
@@ -41,12 +42,23 @@ export const useMutationStates = () => {
         [setMutationState]
     );
 
+    const updateText = useCallback(
+        (text: DiaryText) => {
+            setMutationState((prev) => ({
+                ...prev,
+                diary: text,
+            }));
+        },
+        [setMutationState]
+    );
+
     return {
         mutationState,
         mutator: {
             lockMutation,
             unlockMutation,
             cancelMutation,
+            updateText,
         },
     };
 };
