@@ -17,19 +17,30 @@ export const useStreamer = () => {
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const mutateText = useCallback(async (targetText: DiaryText) => {
-        lockMutation();
-        const res = await sendTextToAI(targetText);
-        match(res)
-            .with({ status: "ok" }, () => {
-                const { mutatedLength: resMutatedLength } = guardRecursiveUndef(res.val);
-                unlockMutation(resMutatedLength);
-            })
-            .with({ status: "err" }, () => {
-                console.log("cancel mutation update");
-                unlockMutation(0);
+    const mutateText = useCallback(
+        async (targetText: DiaryText) => {
+            lockMutation();
+            sendToServer({
+                diary: targetText,
+                stage: "pending",
             });
-    }, []);
+            const res = await sendTextToAI(targetText);
+            match(res)
+                .with({ status: "ok" }, () => {
+                    const { mutatedLength: resMutatedLength } = guardRecursiveUndef(res.val);
+                    unlockMutation(resMutatedLength);
+                    sendToServer({
+                        diary: targetText,
+                        stage: "ready",
+                    });
+                })
+                .with({ status: "err" }, () => {
+                    console.log("cancel mutation update");
+                    unlockMutation(0);
+                });
+        },
+        [lockMutation, unlockMutation, sendTextToAI, sendToServer]
+    );
 
     const isEndWithBreakChar = (text: DiaryText) => {
         return text.length > 0 ? isBreakChar(text[text.length - 1].slice(-1)) : false;
@@ -38,10 +49,7 @@ export const useStreamer = () => {
     const handleInputChange = useCallback(
         async (clientText: DiaryText) => {
             updateText(clientText);
-            sendToServer({
-                diary: clientText,
-                mutateState: mutationState,
-            });
+
             const mutateTarget = isEndWithBreakChar(clientText)
                 ? clientText
                 : clientText.slice(0, clientText.length - 1);
@@ -52,7 +60,7 @@ export const useStreamer = () => {
                 await mutateText(clientText);
             }
         },
-        [updateText, sendToServer, mutateText]
+        [updateText, mutateText]
     );
 
     const handleReset = useCallback(() => {
