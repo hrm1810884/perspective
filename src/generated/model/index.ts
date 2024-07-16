@@ -5,6 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './getAI200';
+export * from './getAI200Result';
+export * from './getAI500';
 export * from './initializeUser200';
 export * from './initializeUser500';
 export * from './mutateText200';

@@ -20,17 +20,26 @@ export const ReceiverPage = () => {
     const { mutationState } = useMutationStates();
 
     const {
-        handler: { handleInputChange },
+        handler: { handleInputChange, handleStateChange },
     } = useReceiver(id);
 
     const {
         socket,
+        clientStageRef,
         driver: { setUpSocket, shutDownSocket },
     } = useReceiveService();
 
     useEffect(() => {
         handleInputChange();
     }, [mutationState.diary]);
+
+    useEffect(() => {
+        console.log(clientStageRef.current);
+        if (mutationState.stage === "pending" && clientStageRef.current === "ready") {
+            console.log("fetch AI diary");
+            handleStateChange();
+        }
+    }, [clientStageRef.current]);
 
     useEffect(() => {
         setUpSocket();

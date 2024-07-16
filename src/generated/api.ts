@@ -27,6 +27,8 @@ import type {
   AxiosResponse
 } from 'axios'
 import type {
+  GetAI200,
+  GetAI500,
   InitializeUser200,
   InitializeUser500,
   MutateText200,
@@ -195,6 +197,105 @@ export const useMutateText = <TError = AxiosError<MutateText400 | MutateTextDefa
       return useMutation(mutationOptions);
     }
     
+/**
+ * @summary Get AI diary from DB
+ */
+export const getAI = (
+    diaryId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetAI200>> => {
+    
+    return axios.get(
+      `/diary/${diaryId}`,options
+    );
+  }
+
+
+export const getGetAIQueryKey = (diaryId: number,) => {
+    return [`/diary/${diaryId}`] as const;
+    }
+
+    
+export const getGetAIQueryOptions = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(diaryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) => getAI(diaryId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(diaryId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAIQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>
+export type GetAIQueryError = AxiosError<GetAI500>
+
+/**
+ * @summary Get AI diary from DB
+ */
+export const useGetAI = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(
+ diaryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetAIQueryOptions(diaryId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetAISuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(diaryId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) => getAI(diaryId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(diaryId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAISuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>
+export type GetAISuspenseQueryError = AxiosError<GetAI500>
+
+/**
+ * @summary Get AI diary from DB
+ */
+export const useGetAISuspense = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(
+ diaryId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetAISuspenseQueryOptions(diaryId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 /**
  * @summary Update result with given data
  */
