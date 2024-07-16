@@ -24,6 +24,7 @@ export const useStreamer = () => {
                 diary: targetText,
                 stage: "pending",
             });
+            console.log("mutate start");
             const res = await sendTextToAI(targetText);
             match(res)
                 .with({ status: "ok" }, () => {
