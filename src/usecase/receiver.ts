@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
-import { SocketMessage } from "@/models";
+import { MutationStage, SocketMessage } from "@/models";
 import { useMutationStates } from "@/states";
 import { useSocket } from "@/states/socket";
 import { guardUndef } from "@/utils/guardUndef";
@@ -11,6 +11,8 @@ export const useReceiveService = () => {
         mutator: { lockMutation, updateText },
     } = useMutationStates();
 
+    const clientStageRef = useRef<MutationStage>("ready");
+
     const handleConnect = useCallback(() => {
         console.log("Connected to WebSocket server");
     }, []);
@@ -18,7 +20,9 @@ export const useReceiveService = () => {
     const handleReceive = useCallback(
         (message: SocketMessage) => {
             const { diary: clientDiary, stage: clientStage } = message;
+            console.log(`diary ${clientDiary}, stage ${clientStage}`);
             updateText(clientDiary);
+            clientStageRef.current = clientStage;
             if (clientStage === "pending") {
                 lockMutation();
             }
@@ -38,6 +42,7 @@ export const useReceiveService = () => {
 
     return {
         socket,
+        clientStageRef,
         driver: {
             setUpSocket,
             shutDownSocket,
