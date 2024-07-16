@@ -29,15 +29,15 @@ export const useStreamer = () => {
                 .with({ status: "ok" }, () => {
                     const { mutatedLength: resMutatedLength } = guardRecursiveUndef(res.val);
                     unlockMutation(resMutatedLength);
-                    sendToServer({
-                        diary: targetText,
-                        stage: "ready",
-                    });
                 })
                 .with({ status: "err" }, () => {
                     console.log("cancel mutation update");
-                    unlockMutation(0);
+                    unlockMutation(mutationState.mutatedLength);
                 });
+            sendToServer({
+                diary: targetText,
+                stage: "ready",
+            });
         },
         [lockMutation, unlockMutation, sendTextToAI, sendToServer]
     );
@@ -49,6 +49,7 @@ export const useStreamer = () => {
     const handleInputChange = useCallback(
         async (clientText: DiaryText) => {
             updateText(clientText);
+            sendToServer({ diary: clientText, stage: mutationState.stage });
 
             const mutateTarget = isEndWithBreakChar(clientText)
                 ? clientText
@@ -60,7 +61,7 @@ export const useStreamer = () => {
                 await mutateText(clientText);
             }
         },
-        [updateText, mutateText]
+        [updateText, mutateText, sendToServer, mutationState]
     );
 
     const handleReset = useCallback(() => {
