@@ -14,19 +14,19 @@ export const displayStyle = recipe({
     },
     variants: {
         id: {
-            0: {
+            1: {
                 backgroundColor: "black",
                 color: "white",
             },
-            1: {
+            2: {
                 backgroundColor: "orange",
                 color: "black",
             },
-            2: {
+            3: {
                 backgroundColor: "blue",
                 color: "white",
             },
-            3: {
+            4: {
                 backgroundColor: "red",
                 color: "black",
             },
@@ -41,7 +41,7 @@ export const displayStyle = recipe({
         },
     },
     defaultVariants: {
-        id: 0,
+        id: 1,
         isMutating: false,
     },
 });

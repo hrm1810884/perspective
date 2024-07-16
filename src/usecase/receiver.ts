@@ -1,19 +1,14 @@
-import { MutableRefObject, useCallback } from "react";
+import { useCallback } from "react";
 
-import { StreamerSocketMessage, convertSocketMessage } from "@/models";
+import { SocketMessage } from "@/models";
 import { useMutationStates } from "@/states";
-import { useDiary } from "@/states/diary";
 import { useSocket } from "@/states/socket";
 import { guardUndef } from "@/utils/guardUndef";
 
-export const useReceiveService = (clientTextRef: MutableRefObject<string>) => {
+export const useReceiveService = () => {
     const { socket } = useSocket();
     const {
-        receiver: { receivedText, setReceivedText },
-    } = useDiary();
-    const {
-        mutationState,
-        mutator: { unlockMutation, cancelMutation },
+        mutator: { lockMutation, updateText },
     } = useMutationStates();
 
     const handleConnect = useCallback(() => {
@@ -21,22 +16,14 @@ export const useReceiveService = (clientTextRef: MutableRefObject<string>) => {
     }, []);
 
     const handleReceive = useCallback(
-        (message: StreamerSocketMessage) => {
-            const receivedMessage = convertSocketMessage(message);
-            const { text, inputIndex } = receivedMessage;
-
-            if (inputIndex < mutationState.mutatedLength) {
-                cancelMutation(inputIndex);
-            } else if (
-                (inputIndex > mutationState.mutatedLength || message.cursorPosition === 0) &&
-                mutationState.stage === "cancel"
-            ) {
-                unlockMutation(0);
+        (message: SocketMessage) => {
+            const { diary: clientDiary, stage: clientStage } = message;
+            updateText(clientDiary);
+            if (clientStage === "pending") {
+                lockMutation();
             }
-            setReceivedText((prev) => [...prev.slice(0, inputIndex), ...text.slice(inputIndex)]);
-            clientTextRef.current = message.text;
         },
-        [setReceivedText, mutationState, cancelMutation, clientTextRef, unlockMutation]
+        [updateText, lockMutation]
     );
 
     const setUpSocket = useCallback(() => {
@@ -51,7 +38,6 @@ export const useReceiveService = (clientTextRef: MutableRefObject<string>) => {
 
     return {
         socket,
-        receivedText,
         driver: {
             setUpSocket,
             shutDownSocket,

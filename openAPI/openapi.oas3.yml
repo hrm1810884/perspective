@@ -30,7 +30,7 @@ paths:
                                         type: string
                                         description: JWT token for the user
                             example:
-                                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxOTk5OTk5OTk5fQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                token: "hogehoge"
                 "500":
                     description: Internal server error - user creation failed
                     content:
@@ -75,7 +75,7 @@ paths:
                                                 description: The index of mutated contents
                             example:
                                 result:
-                                    mutatedLength: 0
+                                    mutatedLength: 2
                 "400":
                     description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
                     content:

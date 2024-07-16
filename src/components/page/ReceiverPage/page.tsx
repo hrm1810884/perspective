@@ -20,19 +20,17 @@ export const ReceiverPage = () => {
     const { mutationState } = useMutationStates();
 
     const {
-        clientTextRef,
         handler: { handleInputChange },
     } = useReceiver(id);
 
     const {
         socket,
-        receivedText,
         driver: { setUpSocket, shutDownSocket },
-    } = useReceiveService(clientTextRef);
+    } = useReceiveService();
 
     useEffect(() => {
         handleInputChange();
-    }, [receivedText]);
+    }, [mutationState.diary]);
 
     useEffect(() => {
         setUpSocket();
@@ -48,7 +46,7 @@ export const ReceiverPage = () => {
             <div
                 className={displayStyle({ id: id, isMutating: mutationState.stage === "pending" })}
             >
-                {receivedText}
+                {mutationState.diary}
             </div>
         </div>
     );
