@@ -96,6 +96,55 @@ paths:
                                     error:
                                         type: string
                                         description: "A detailed error message."
+    /diary/{diary-id}:
+        get:
+            summary: Get AI diary from DB
+            operationId: getAI
+            parameters:
+                - name: diary-id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: Successfully diary fetched
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    result:
+                                        type: object
+                                        properties:
+                                            diary:
+                                                type: array
+                                                items:
+                                                    type: string
+                                                description: mutated AI diary
+                                            mutatedLength:
+                                                type: integer
+                                                description: The index of mutated contents
+                                        required:
+                                            - diary
+                                            - mutatedLength
+                            example:
+                                result:
+                                    diary:
+                                        - "hogehoge"
+                                        - "fugafuga"
+                                    mutatedLength: 2
+
+                "500":
+                    description: Internal server error - user creation failed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Error creating user"
 
     /result:
         post:
