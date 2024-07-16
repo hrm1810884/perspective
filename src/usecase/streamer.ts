@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 
-import { StreamerSocketMessage } from "@/models";
+import { SocketMessage } from "@/models";
 import { useSocket } from "@/states/socket";
 
 export const useStreamService = () => {
@@ -8,7 +8,7 @@ export const useStreamService = () => {
     const timeoutRef = useRef<number | null>(null);
 
     const sendToServer = useCallback(
-        async (socketMessage: StreamerSocketMessage) => {
+        async (socketMessage: SocketMessage) => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
             }

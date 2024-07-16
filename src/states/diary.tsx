@@ -1,18 +1,12 @@
+import { DiaryText } from "@/models";
 import { atom, useAtom } from "jotai";
 
-import { ReceiverText, StreamerText } from "@/models";
-
-const clientTextAtom = atom<StreamerText>("");
-const receivedTextAtom = atom<ReceiverText>([]);
+const diaryTextAtom = atom<DiaryText>([]);
 export const useDiary = () => {
-    const [clientText, setClientText] = useAtom<StreamerText>(clientTextAtom);
-    const [receivedText, setReceivedText] = useAtom<ReceiverText>(receivedTextAtom);
+    const [diaryText, setDiaryText] = useAtom<DiaryText>(diaryTextAtom);
 
     return {
-        client: { clientText, setClientText },
-        receiver: {
-            receivedText,
-            setReceivedText,
-        },
+        diaryText,
+        setDiaryText,
     };
 };

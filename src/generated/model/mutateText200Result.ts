@@ -6,10 +6,6 @@
  */
 
 export type MutateText200Result = {
-  /** Text index in the contents */
+  /** The index of mutated contents */
   mutatedLength?: number;
-  /** AI output from BE */
-  mutatedText?: string[];
-  /** Text to be mutated */
-  rawContents?: string[];
 };
