@@ -14,7 +14,7 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
-import { convertTextToDiary } from "@/models";
+import { convertPosToIndex, convertTextToDiary } from "@/models";
 import { IconReload } from "@tabler/icons-react";
 import {
     buttonStyle,
@@ -26,10 +26,9 @@ import {
 
 export const StreamerPage = () => {
     const {
-        textareaRef,
         diaryText,
         mutator: { updateText },
-        handler: { handleInputChange, handleReset, handleResend },
+        handler: { handleInputChange, handleReset, handleResend, handleCursorPosition },
     } = useStreamer();
 
     const {
@@ -116,11 +115,13 @@ export const StreamerPage = () => {
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
                 value={diaryText.join("")}
                 onChange={(e) => {
+                    const newDiary = convertTextToDiary(e.target.value);
+                    const curosrIndex = convertPosToIndex(e.target.selectionStart, newDiary);
                     handleShortTypingSound();
-                    handleInputChange(convertTextToDiary(e.target.value));
+                    handleInputChange(newDiary);
+                    handleCursorPosition(curosrIndex);
                 }}
                 placeholder="Write message"
-                ref={textareaRef}
                 disabled={experienceState.stage === "demo"}
             />
 

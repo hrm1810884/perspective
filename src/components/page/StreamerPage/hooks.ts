@@ -1,6 +1,6 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
-import { DiaryText } from "@/models";
+import { convertPosToIndex, DiaryText } from "@/models";
 import { useMutationStates } from "@/states/";
 import { sendTextToAI, useStreamService } from "@/usecase";
 import { guardRecursiveUndef, isBreakChar } from "@/utils";
@@ -12,10 +12,8 @@ export const useStreamer = () => {
     const { sendToServer } = useStreamService();
     const {
         mutationState,
-        mutator: { lockMutation, unlockMutation, updateText },
+        mutator: { lockMutation, unlockMutation, cancelMutation, updateText },
     } = useMutationStates();
-
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const mutateText = useCallback(
         async (targetText: DiaryText) => {
@@ -29,6 +27,7 @@ export const useStreamer = () => {
             match(res)
                 .with({ status: "ok" }, () => {
                     const { mutatedLength: resMutatedLength } = guardRecursiveUndef(res.val);
+                    console.log(resMutatedLength);
                     unlockMutation(resMutatedLength);
                 })
                 .with({ status: "err" }, () => {
@@ -65,6 +64,23 @@ export const useStreamer = () => {
         [updateText, mutateText, sendToServer, mutationState]
     );
 
+    const handleCursorPosition = useCallback(
+        (cursorIndex: number) => {
+            console.log(cursorIndex, mutationState.mutatedLength);
+            if (cursorIndex < mutationState.mutatedLength) {
+                console.log("updating mutated section");
+                cancelMutation(cursorIndex);
+            } else if (
+                mutationState.stage === "cancel" &&
+                (cursorIndex > mutationState.mutatedLength || cursorIndex === 0)
+            ) {
+                console.log("updated cancel mutation");
+                unlockMutation(mutationState.mutatedLength);
+            }
+        },
+        [convertPosToIndex, cancelMutation, unlockMutation, mutationState]
+    );
+
     const handleReset = useCallback(() => {
         // updateText("");
         // sendToServer({
@@ -88,13 +104,13 @@ export const useStreamer = () => {
     }, []);
 
     return {
-        textareaRef,
         diaryText: mutationState.diary,
         mutator: { updateText },
         handler: {
             handleInputChange,
             handleReset,
             handleResend,
+            handleCursorPosition,
         },
     };
 };
