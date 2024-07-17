@@ -1,9 +1,9 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
-import { DiaryText } from "@/models";
-import { useMutationStates } from "@/states/";
+import { convertPosToIndex, DiaryText } from "@/models";
+import { useMutationStates, useTyping } from "@/states/";
 import { sendTextToAI, useStreamService } from "@/usecase";
-import { guardRecursiveUndef, isBreakChar } from "@/utils";
+import { delay, guardRecursiveUndef, isBreakChar } from "@/utils";
 import { match } from "ts-pattern";
 
 const FETCH_COUNT = 2;
@@ -12,10 +12,12 @@ export const useStreamer = () => {
     const { sendToServer } = useStreamService();
     const {
         mutationState,
-        mutator: { lockMutation, unlockMutation, updateText },
+        mutator: { lockMutation, unlockMutation, cancelMutation, updateText },
     } = useMutationStates();
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const {
+        handler: { handleShortTypingSound },
+    } = useTyping();
 
     const mutateText = useCallback(
         async (targetText: DiaryText) => {
@@ -23,22 +25,30 @@ export const useStreamer = () => {
             sendToServer({
                 diary: targetText,
                 stage: "pending",
+                mutatedLength: mutationState.mutatedLength,
             });
             console.log("mutate start");
+            await delay(1000);
             const res = await sendTextToAI(targetText);
             match(res)
                 .with({ status: "ok" }, () => {
                     const { mutatedLength: resMutatedLength } = guardRecursiveUndef(res.val);
                     unlockMutation(resMutatedLength);
+                    sendToServer({
+                        diary: targetText,
+                        stage: "ready",
+                        mutatedLength: resMutatedLength,
+                    });
                 })
                 .with({ status: "err" }, () => {
                     console.log("cancel mutation update");
                     unlockMutation(mutationState.mutatedLength);
+                    sendToServer({
+                        diary: targetText,
+                        stage: "ready",
+                        mutatedLength: mutationState.mutatedLength,
+                    });
                 });
-            sendToServer({
-                diary: targetText,
-                stage: "ready",
-            });
         },
         [lockMutation, unlockMutation, sendTextToAI, sendToServer]
     );
@@ -50,7 +60,12 @@ export const useStreamer = () => {
     const handleInputChange = useCallback(
         async (clientText: DiaryText) => {
             updateText(clientText);
-            sendToServer({ diary: clientText, stage: mutationState.stage });
+            handleShortTypingSound();
+            sendToServer({
+                diary: clientText,
+                stage: mutationState.stage,
+                mutatedLength: mutationState.mutatedLength,
+            });
 
             const mutateTarget = isEndWithBreakChar(clientText)
                 ? clientText
@@ -62,39 +77,52 @@ export const useStreamer = () => {
                 await mutateText(clientText);
             }
         },
-        [updateText, mutateText, sendToServer, mutationState]
+        [updateText, mutateText, sendToServer, mutationState, handleShortTypingSound]
+    );
+
+    const handleCursorPosition = useCallback(
+        (cursorIndex: number) => {
+            console.log(cursorIndex, mutationState.mutatedLength);
+            if (cursorIndex < mutationState.mutatedLength) {
+                console.log("updating mutated section");
+                cancelMutation(cursorIndex);
+            } else if (
+                mutationState.stage === "cancel" &&
+                (cursorIndex > mutationState.mutatedLength || cursorIndex === 0)
+            ) {
+                console.log("updated cancel mutation");
+                unlockMutation(mutationState.mutatedLength);
+            }
+        },
+        [convertPosToIndex, cancelMutation, unlockMutation, mutationState]
     );
 
     const handleReset = useCallback(() => {
-        // updateText("");
-        // sendToServer({
-        //     text: "",
-        //     cursorPosition: 0,
-        // });
-    }, []);
+        updateText([]);
+        sendToServer({
+            diary: [],
+            stage: "ready",
+            mutatedLength: 0,
+        });
+    }, [updateText, sendToServer]);
 
     const handleResend = useCallback(async () => {
-        // const currentText = clientText;
-        // console.log(`${currentText}を再送`);
-        // sendToServer({
-        //     text: "",
-        //     cursorPosition: 0,
-        // });
-        // await delay(100);
-        // sendToServer({
-        //     text: currentText,
-        //     cursorPosition: 0,
-        // });
-    }, []);
+        const mutateTarget = isEndWithBreakChar(mutationState.diary)
+            ? mutationState.diary
+            : mutationState.diary.slice(0, mutationState.diary.length - 1);
+        if (mutateTarget.length >= FETCH_COUNT && mutationState.stage === "ready") {
+            await mutateText(mutationState.diary);
+        }
+    }, [mutationState, mutateText]);
 
     return {
-        textareaRef,
         diaryText: mutationState.diary,
         mutator: { updateText },
         handler: {
             handleInputChange,
             handleReset,
             handleResend,
+            handleCursorPosition,
         },
     };
 };

@@ -145,6 +145,7 @@ paths:
                                     error:
                                         type: string
                                         example: "Error creating user"
+            security: []
 
     /result:
         post:

@@ -3,7 +3,7 @@
 import { Button, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
-import { useExperenceStates, useTyping } from "@/states";
+import { useExperenceStates } from "@/states";
 import { useSaveStates } from "@/states/save";
 import { stageSwitcher } from "@/utils";
 
@@ -14,7 +14,7 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
-import { convertTextToDiary } from "@/models";
+import { convertPosToIndex, convertTextToDiary } from "@/models";
 import { IconReload } from "@tabler/icons-react";
 import {
     buttonStyle,
@@ -26,15 +26,10 @@ import {
 
 export const StreamerPage = () => {
     const {
-        textareaRef,
         diaryText,
         mutator: { updateText },
-        handler: { handleInputChange, handleReset, handleResend },
+        handler: { handleInputChange, handleReset, handleResend, handleCursorPosition },
     } = useStreamer();
-
-    const {
-        handler: { handleShortTypingSound },
-    } = useTyping();
 
     const {
         experienceState,
@@ -65,7 +60,9 @@ export const StreamerPage = () => {
 
             const updateWithRandomInterval = () => {
                 if (index <= demoText.length) {
-                    updateText(convertTextToDiary(demoText.slice(0, index)));
+                    const newDiary = convertTextToDiary(demoText.slice(0, index));
+                    updateText(newDiary);
+                    handleInputChange(newDiary);
                     index++;
 
                     // Generate a random duration between 100 and 400 ms for the next update
@@ -97,13 +94,6 @@ export const StreamerPage = () => {
         };
     }, [experienceState, updateText, handleReset, demoInput]);
 
-    useEffect(() => {
-        if (experienceState.stage === "demo" && experienceState.demoSelection) {
-            handleShortTypingSound();
-            handleInputChange(diaryText);
-        }
-    }, [diaryText, experienceState]);
-
     return (
         <div className={wrapper}>
             <OverlayLoading />
@@ -116,11 +106,12 @@ export const StreamerPage = () => {
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
                 value={diaryText.join("")}
                 onChange={(e) => {
-                    handleShortTypingSound();
-                    handleInputChange(convertTextToDiary(e.target.value));
+                    const newDiary = convertTextToDiary(e.target.value);
+                    const curosrIndex = convertPosToIndex(e.target.selectionStart, newDiary);
+                    handleInputChange(newDiary);
+                    handleCursorPosition(curosrIndex);
                 }}
                 placeholder="Write message"
-                ref={textareaRef}
                 disabled={experienceState.stage === "demo"}
             />
 
