@@ -27,7 +27,7 @@ export const useReceiveService = () => {
                 lockMutation();
             }
         },
-        [updateText, lockMutation]
+        [updateText, lockMutation, clientStageRef]
     );
 
     const setUpSocket = useCallback(() => {
