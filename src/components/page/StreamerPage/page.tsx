@@ -3,7 +3,7 @@
 import { Button, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
-import { useExperenceStates, useTyping } from "@/states";
+import { useExperenceStates } from "@/states";
 import { useSaveStates } from "@/states/save";
 import { stageSwitcher } from "@/utils";
 
@@ -30,10 +30,6 @@ export const StreamerPage = () => {
         mutator: { updateText },
         handler: { handleInputChange, handleReset, handleResend, handleCursorPosition },
     } = useStreamer();
-
-    const {
-        handler: { handleShortTypingSound },
-    } = useTyping();
 
     const {
         experienceState,
@@ -64,7 +60,9 @@ export const StreamerPage = () => {
 
             const updateWithRandomInterval = () => {
                 if (index <= demoText.length) {
-                    updateText(convertTextToDiary(demoText.slice(0, index)));
+                    const newDiary = convertTextToDiary(demoText.slice(0, index));
+                    updateText(newDiary);
+                    handleInputChange(newDiary);
                     index++;
 
                     // Generate a random duration between 100 and 400 ms for the next update
@@ -96,13 +94,6 @@ export const StreamerPage = () => {
         };
     }, [experienceState, updateText, handleReset, demoInput]);
 
-    useEffect(() => {
-        if (experienceState.stage === "demo" && experienceState.demoSelection) {
-            handleShortTypingSound();
-            handleInputChange(diaryText);
-        }
-    }, [diaryText, experienceState]);
-
     return (
         <div className={wrapper}>
             <OverlayLoading />
@@ -117,7 +108,6 @@ export const StreamerPage = () => {
                 onChange={(e) => {
                     const newDiary = convertTextToDiary(e.target.value);
                     const curosrIndex = convertPosToIndex(e.target.selectionStart, newDiary);
-                    handleShortTypingSound();
                     handleInputChange(newDiary);
                     handleCursorPosition(curosrIndex);
                 }}

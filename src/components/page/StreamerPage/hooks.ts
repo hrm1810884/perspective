@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { convertPosToIndex, DiaryText } from "@/models";
-import { useMutationStates } from "@/states/";
+import { useMutationStates, useTyping } from "@/states/";
 import { sendTextToAI, useStreamService } from "@/usecase";
 import { delay, guardRecursiveUndef, isBreakChar } from "@/utils";
 import { match } from "ts-pattern";
@@ -14,6 +14,10 @@ export const useStreamer = () => {
         mutationState,
         mutator: { lockMutation, unlockMutation, cancelMutation, updateText },
     } = useMutationStates();
+
+    const {
+        handler: { handleShortTypingSound },
+    } = useTyping();
 
     const mutateText = useCallback(
         async (targetText: DiaryText) => {
@@ -56,6 +60,7 @@ export const useStreamer = () => {
     const handleInputChange = useCallback(
         async (clientText: DiaryText) => {
             updateText(clientText);
+            handleShortTypingSound();
             sendToServer({
                 diary: clientText,
                 stage: mutationState.stage,
@@ -72,7 +77,7 @@ export const useStreamer = () => {
                 await mutateText(clientText);
             }
         },
-        [updateText, mutateText, sendToServer, mutationState]
+        [updateText, mutateText, sendToServer, mutationState, handleShortTypingSound]
     );
 
     const handleCursorPosition = useCallback(
