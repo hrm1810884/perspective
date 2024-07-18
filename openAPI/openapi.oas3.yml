@@ -147,6 +147,50 @@ paths:
                                         example: "Error creating user"
             security: []
 
+    /delete:
+        post:
+            summary: Delete user data in database
+            operationId: deleteUser
+            security:
+                - BearerAuth: []
+            responses:
+                "200":
+                    description: Successfully delete user data
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: "Success"
+                "400":
+                    description: Invalid request - the request could not be understood due to malformed syntax or invalid data.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Invalid input data"
+                "401":
+                    description: Unauthorized - the request requires valid user authentication.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: "Invalid or missing JWT token"
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        description: "A detailed error message."
     /result:
         post:
             summary: Update result with given data

@@ -5,6 +5,7 @@ import { PrivacyLevel, SaveItem } from "@/models";
 import { useExperenceStates, useOverlayLoadingState } from "@/states";
 import { useSaveStates } from "@/states/save";
 import { saveResult } from "@/usecase";
+import { deleteUserData } from "@/usecase/deleteUser";
 import { showToast } from "@/utils/toast";
 
 export const useSave = () => {
@@ -14,9 +15,20 @@ export const useSave = () => {
         mutator: { setStage },
     } = useExperenceStates();
 
-    const handleClick = useCallback(() => {
-        setStage("demo");
-    }, [setStage]);
+    const handleUnSave = useCallback(async () => {
+        const runUnSaveWithLoading = runWithLoading(async () => await deleteUserData());
+
+        const res = await runUnSaveWithLoading();
+
+        match(res)
+            .with({ status: "ok" }, () => {
+                showToast({ message: "体験データを削除しました", type: "success" });
+                setStage("demo");
+            })
+            .with({ status: "err" }, () => {
+                showToast({ message: "体験データの削除に失敗しました", type: "error" });
+            });
+    }, [setStage, runWithLoading]);
 
     const handleSave = useCallback(
         async (privacyLevel: PrivacyLevel) => {
@@ -39,5 +51,5 @@ export const useSave = () => {
         [setStage, runWithLoading, saveItem]
     );
 
-    return { handler: { handleClick, handleSave } };
+    return { handler: { handleUnSave, handleSave } };
 };

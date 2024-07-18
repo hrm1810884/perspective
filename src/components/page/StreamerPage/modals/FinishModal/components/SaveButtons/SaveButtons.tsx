@@ -12,17 +12,17 @@ type props = {
 
 export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
     const {
-        handler: { handleClick, handleSave },
+        handler: { handleUnSave, handleSave },
     } = useSave();
     return (
         <div className={contentContainer}>
             <Button
                 variant="outline"
-                onClick={() => {
+                onClick={async () => {
                     handleNext();
-                    handleClick();
+                    await handleUnSave();
                 }}
-                size = "md"
+                size="md"
             >
                 保存しない
             </Button>
@@ -31,17 +31,17 @@ export const SaveButtons: FC<props> = ({ onNext: handleNext }) => {
                     handleNext();
                     await handleSave("private");
                 }}
-                size = "md"
+                size="md"
             >
                 保存してもよいが，公開しない
             </Button>
             <Button
-                color = "green"
+                color="green"
                 onClick={async () => {
                     handleNext();
                     await handleSave("public");
                 }}
-                size = "md"
+                size="md"
             >
                 保存してもよく，今後の展示で公開しても良い
             </Button>

@@ -27,6 +27,9 @@ import type {
   AxiosResponse
 } from 'axios'
 import type {
+  DeleteUser400,
+  DeleteUser401,
+  DeleteUserDefault,
   GetAI200,
   GetAI500,
   InitializeUser200,
@@ -296,6 +299,60 @@ export const useGetAISuspense = <TData = Awaited<ReturnType<typeof getAI>>, TErr
 
 
 
+/**
+ * @summary Delete user data in database
+ */
+export const deleteUser = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<string>> => {
+    
+    return axios.post(
+      `/delete`,undefined,options
+    );
+  }
+
+
+
+export const getDeleteUserMutationOptions = <TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUser>>, void> = () => {
+          
+
+          return  deleteUser(axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUser>>>
+    
+    export type DeleteUserMutationError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>
+
+    /**
+ * @summary Delete user data in database
+ */
+export const useDeleteUser = <TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUser>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteUserMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * @summary Update result with given data
  */
