@@ -5,6 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './deleteUser400';
+export * from './deleteUser401';
+export * from './deleteUserDefault';
 export * from './getAI200';
 export * from './getAI200Result';
 export * from './getAI500';
