@@ -9,6 +9,7 @@ export const useReceiveService = () => {
     const { socket } = useSocket();
     const {
         mutator: { lockMutation, updateText },
+        mutationState,
     } = useMutationStates();
 
     const clientStageRef = useRef<MutationStage>("ready");
@@ -21,13 +22,17 @@ export const useReceiveService = () => {
         (message: SocketMessage) => {
             const { diary: clientDiary, stage: clientStage } = message;
             console.log(`diary ${clientDiary}, stage ${clientStage}`);
-            updateText(clientDiary);
+            const newDiary = [
+                ...mutationState.diary.slice(0, mutationState.mutatedLength),
+                ...clientDiary.slice(mutationState.mutatedLength),
+            ];
+            updateText(newDiary);
             clientStageRef.current = clientStage;
             if (clientStage === "pending") {
                 lockMutation();
             }
         },
-        [updateText, lockMutation, clientStageRef]
+        [updateText, lockMutation, clientStageRef, mutationState]
     );
 
     const setUpSocket = useCallback(() => {

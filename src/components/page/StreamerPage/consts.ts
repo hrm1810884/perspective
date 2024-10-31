@@ -1,6 +1,6 @@
-import { DemoSelection, StreamerText } from "@/models";
+import { DemoSelection } from "@/models";
 
-export const demoInput: Record<DemoSelection["key"], StreamerText> = {
+export const demoInput: Record<DemoSelection["key"], string> = {
     apple: "朝、みんながりんごになる夢を見た。目が覚めたら、昨日食べきれなかったりんごが机の上に置きっぱなしで、真夏だから変な匂いがしている。夏はそんなものだね。アラームの曲は穏やかで、聴いても眠気が取れない。眠くて、眠くて、りんごになってしまった。全く困ったものだ。",
     book: "友達のSNSで制作展EXTRAが宣伝されていた。「なにいう展」というツッコミ口調のタイトル、なんかおもしろそう。幸い今日は予定がなかったので東大まで足を伸ばしてみた。個性豊かな作品たちを見て楽しんでいると、prismatic diaryが目についた。たくさんのモニターに囲まれて不思議な気分。一体どんな文章を書こうか。キーボードに手を伸ばしてみる。",
     brush: "山路を登りながら、こう考えた。智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引越したくなる。どこへ越しても住みにくいと悟った時、詩が生れて、画が出来る",

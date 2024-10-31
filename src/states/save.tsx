@@ -1,10 +1,9 @@
 import { atom, useAtom } from "jotai";
 import { useCallback } from "react";
 
-import { ReceiverId, SaveItem, StreamerText } from "@/models";
+import { ReceiverId, SaveItem } from "@/models";
 
 const defaultSaveItem: SaveItem = {
-    diary: "",
     isPublic: false,
     favoriteId: null,
 };
@@ -21,13 +20,6 @@ export const useSaveStates = () => {
         [setSaveItem]
     );
 
-    const saveDiaryText = useCallback(
-        (text: StreamerText) => {
-            setSaveItem((prev) => ({ ...prev, diary: text }));
-        },
-        [setSaveItem]
-    );
-
     const resetSave = useCallback(() => {
         setSaveItem(defaultSaveItem);
     }, [setSaveItem]);
@@ -36,7 +28,6 @@ export const useSaveStates = () => {
         saveItem,
         mutator: {
             saveFavoriteId,
-            saveDiaryText,
             resetSave,
         },
     };
