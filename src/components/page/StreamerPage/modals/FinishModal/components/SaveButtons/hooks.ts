@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { match } from "ts-pattern";
 
 import { PrivacyLevel, SaveItem } from "@/models";
-import { useExperenceStates, useOverlayLoadingState } from "@/states";
+import { useExperienceStates, useOverlayLoadingState } from "@/states";
 import { useSaveStates } from "@/states/save";
 import { saveResult } from "@/usecase";
 import { deleteUserData } from "@/usecase/deleteUser";
@@ -13,7 +13,7 @@ export const useSave = () => {
     const { saveItem } = useSaveStates();
     const {
         mutator: { setStage },
-    } = useExperenceStates();
+    } = useExperienceStates();
 
     const handleUnSave = useCallback(async () => {
         const runUnSaveWithLoading = runWithLoading(async () => await deleteUserData());

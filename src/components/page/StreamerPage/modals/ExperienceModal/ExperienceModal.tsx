@@ -5,7 +5,7 @@ import { IconApple, IconBook, IconBrush, IconPencil } from "@tabler/icons-react"
 import React, { FC, useEffect } from "react";
 
 import { DemoSelection, demoSelectionList } from "@/models";
-import { useExperenceStates } from "@/states";
+import { useExperienceStates } from "@/states";
 import { stageSwitcher } from "@/utils";
 
 import { useModal } from "../hooks";
@@ -26,7 +26,7 @@ export const ExperienceModal: FC<{}> = ({}) => {
     const {
         experienceState,
         mutator: { selectDemo, setStage },
-    } = useExperenceStates();
+    } = useExperienceStates();
 
     const iconMap: Record<DemoSelection["key"], React.ElementType> = {
         apple: IconApple,
