@@ -53,9 +53,7 @@ paths:
                             type: object
                             properties:
                                 targetText:
-                                    type: array
-                                    items:
-                                        type: string
+                                    type: string
                                     description: Text to be mutated
                             required:
                                 - targetText
@@ -73,6 +71,8 @@ paths:
                                             mutatedLength:
                                                 type: integer
                                                 description: The index of mutated contents
+                                        required:
+                                            - mutatedLength
                             example:
                                 result:
                                     mutatedLength: 2
@@ -118,9 +118,7 @@ paths:
                                         type: object
                                         properties:
                                             diary:
-                                                type: array
-                                                items:
-                                                    type: string
+                                                type: string
                                                 description: mutated AI diary
                                             mutatedLength:
                                                 type: integer
@@ -130,9 +128,7 @@ paths:
                                             - mutatedLength
                             example:
                                 result:
-                                    diary:
-                                        - "hogehoge"
-                                        - "fugafuga"
+                                    diary: "hogehoge"
                                     mutatedLength: 2
 
                 "500":
