@@ -7,5 +7,5 @@
 
 export type MutateText200Result = {
   /** The index of mutated contents */
-  mutatedLength?: number;
+  mutatedLength: number;
 };

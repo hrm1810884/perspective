@@ -7,7 +7,7 @@
 
 export type GetAI200Result = {
   /** mutated AI diary */
-  diary: string[];
+  diary: string;
   /** The index of mutated contents */
   mutatedLength: number;
 };
