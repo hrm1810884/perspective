@@ -3,7 +3,7 @@
 import { Button, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
-import { useExperenceStates } from "@/states";
+import { useExperienceStates } from "@/states";
 import { stageSwitcher } from "@/utils";
 
 import { demoInput } from "./consts";
@@ -33,7 +33,7 @@ export const StreamerPage = () => {
     const {
         experienceState,
         mutator: { setStage },
-    } = useExperenceStates();
+    } = useExperienceStates();
 
     const {
         isOpen: isFinish,

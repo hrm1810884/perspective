@@ -9,7 +9,7 @@ const defaultExperienceState: ExperienceState = {
 };
 const experienceStateAtom = atom<ExperienceState>(defaultExperienceState);
 
-export const useExperenceStates = () => {
+export const useExperienceStates = () => {
     const [experienceState, setExperienceState] = useAtom(experienceStateAtom);
 
     const setStage = useCallback(
