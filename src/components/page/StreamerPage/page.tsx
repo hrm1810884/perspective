@@ -4,7 +4,6 @@ import { Button, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
 import { useExperenceStates } from "@/states";
-import { useSaveStates } from "@/states/save";
 import { stageSwitcher } from "@/utils";
 
 import { demoInput } from "./consts";
@@ -40,10 +39,6 @@ export const StreamerPage = () => {
         isOpen: isFinish,
         mutator: { openModal: openFinishModal, closeModal: closeFinishModal },
     } = useModal();
-
-    const {
-        mutator: { saveDiaryText },
-    } = useSaveStates();
 
     const timeoutRef = useRef<number | null>(null);
 
@@ -124,13 +119,7 @@ export const StreamerPage = () => {
                             </Button>
                         ),
                         diary: (
-                            <Button
-                                onClick={() => {
-                                    saveDiaryText(diaryText);
-                                    openFinishModal();
-                                }}
-                                className={buttonStyle}
-                            >
+                            <Button onClick={openFinishModal} className={buttonStyle}>
                                 {"体験を終了する"}
                             </Button>
                         ),

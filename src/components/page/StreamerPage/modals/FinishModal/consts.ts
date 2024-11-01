@@ -30,22 +30,22 @@ export const buttonList: Array<ButtonInfo> = [
         prompt: null,
     },
     {
-        id: 0,
+        id: 1,
         position: { top: "0.5px", left: "54.5px", width: "98px", height: "171px" },
         prompt: "真逆の意味合いに書き換えてください。",
     },
     {
-        id: 1,
+        id: 2,
         position: { top: "214.5px", left: "0.5px", width: "136px", height: "89px" },
         prompt: "楽観的に書き替えてください。",
     },
     {
-        id: 2,
+        id: 3,
         position: { top: "162.5px", left: "355.5px", width: "98px", height: "171px" },
         prompt: "悲観的に書き替えてください。",
     },
     {
-        id: 3,
+        id: 4,
         position: { top: "58.5px", left: "309.5px", width: "125px", height: "74px" },
         prompt: "自己拡張的に書き換えてください。",
     },

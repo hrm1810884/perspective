@@ -26,6 +26,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
                 const { diary: mutatedDiary, mutatedLength: resMutatedLength } =
                     guardRecursiveUndef(response.val);
                 const newDiary = [...mutatedDiary, ...mutationState.diary.slice(resMutatedLength)];
+                console.log(newDiary, resMutatedLength);
                 updateText(newDiary);
                 unlockMutation(resMutatedLength);
             })
@@ -33,7 +34,7 @@ export const useReceiver = (receiverId: ReceiverId) => {
                 console.log(`Error: ${response.err}`);
                 unlockMutation(0);
             });
-    }, [getAiDiary, updateText, unlockMutation]);
+    }, [getAiDiary, updateText, unlockMutation, mutationState]);
 
     return {
         handler: {
