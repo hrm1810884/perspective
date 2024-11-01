@@ -7,5 +7,5 @@
 
 export type MutateTextBody = {
   /** Text to be mutated */
-  targetText: string[];
+  targetText: string;
 };

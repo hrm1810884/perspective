@@ -13,7 +13,8 @@
     "format": "prettier --write . && npm run lint:js -- --fix && npm run lint:css -- --fix",
     "codegen:oas": "npx orval",
     "mock:start": "yarn prism mock ./openapi/openapi.oas3.yml -p 8080",
-    "migrate:postgres": "dotenv -e .env.local -- npx prisma migrate dev --name init"
+    "migrate:postgres": "dotenv -e .env.local -- npx prisma migrate dev --name init",
+    "typecheck": "yarn tsc --noEmit"
   },
   "dependencies": {
     "@mantine/core": "^7.10.1",

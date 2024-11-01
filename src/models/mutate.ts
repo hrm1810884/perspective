@@ -6,12 +6,14 @@ export const mutationStageList = ["ready", "pending", "cancel"] as const;
 export type MutationStage = (typeof mutationStageList)[number];
 export type MutationState = {
     diary: DiaryText;
-    stage: MutationStage;
     mutatedLength: number;
 };
 
 export const mutateDataUtils = {
-    convertData(data: DAiResult): { diary: DiaryText; mutatedLength: number } {
-        return { diary: data.diary as DiaryText, mutatedLength: data.mutatedLength as number };
+    convertData(data: DAiResult): MutationState {
+        return {
+            diary: data.diary,
+            mutatedLength: data.mutatedLength,
+        };
     },
 };

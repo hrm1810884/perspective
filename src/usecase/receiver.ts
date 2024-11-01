@@ -1,6 +1,6 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
-import { MutationStage, SocketMessage } from "@/models";
+import { SocketMessage } from "@/models";
 import { useMutationStates } from "@/states";
 import { useSocket } from "@/states/socket";
 import { guardUndef } from "@/utils/guardUndef";
@@ -8,11 +8,9 @@ import { guardUndef } from "@/utils/guardUndef";
 export const useReceiveService = () => {
     const { socket } = useSocket();
     const {
-        mutator: { lockMutation, updateText },
+        mutator: { updateText },
         mutationState,
     } = useMutationStates();
-
-    const clientStageRef = useRef<MutationStage>("ready");
 
     const handleConnect = useCallback(() => {
         console.log("Connected to WebSocket server");
@@ -20,19 +18,14 @@ export const useReceiveService = () => {
 
     const handleReceive = useCallback(
         (message: SocketMessage) => {
-            const { diary: clientDiary, stage: clientStage } = message;
-            console.log(`diary ${clientDiary}, stage ${clientStage}`);
-            const newDiary = [
-                ...mutationState.diary.slice(0, mutationState.mutatedLength),
-                ...clientDiary.slice(mutationState.mutatedLength),
-            ];
+            const { diary: clientDiary } = message;
+            console.log(`diary ${clientDiary}`);
+            const newDiary =
+                mutationState.diary.slice(0, mutationState.mutatedLength) +
+                clientDiary.slice(message.mutatedLength);
             updateText(newDiary);
-            clientStageRef.current = clientStage;
-            if (clientStage === "pending") {
-                lockMutation();
-            }
         },
-        [updateText, lockMutation, clientStageRef, mutationState]
+        [updateText, mutationState]
     );
 
     const setUpSocket = useCallback(() => {
@@ -47,7 +40,6 @@ export const useReceiveService = () => {
 
     return {
         socket,
-        clientStageRef,
         driver: {
             setUpSocket,
             shutDownSocket,

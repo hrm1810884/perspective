@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { match } from "ts-pattern";
 import useSound from "use-sound";
 
-import { ReceiverId, convertTextToDiary, keyboardSettingById } from "@/models";
+import { ReceiverId, keyboardSettingById } from "@/models";
 import { delay } from "@/utils";
 
 import { useMutationStates } from "./mutation";
@@ -46,7 +46,7 @@ export const useTyping = (id?: ReceiverId) => {
     const handleTypingText = useCallback(
         (text: string, index: number) => {
             if (index <= text.length) {
-                updateText(convertTextToDiary(text.slice(0, index)));
+                updateText(text.slice(0, index));
                 const randomDelay = Math.random() * 300;
                 setTimeout(() => handleTypingText(text, index + 1), randomDelay);
             }

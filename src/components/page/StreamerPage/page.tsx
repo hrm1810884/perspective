@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Button, Textarea, Tooltip } from "@mantine/core";
+import { Button, Textarea } from "@mantine/core";
 import { useEffect, useRef } from "react";
 
 import { useExperienceStates } from "@/states";
@@ -13,8 +13,6 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
-import { convertPosToIndex, convertTextToDiary } from "@/models";
-import { IconReload } from "@tabler/icons-react";
 import {
     buttonStyle,
     controlAreaStyle,
@@ -27,7 +25,7 @@ export const StreamerPage = () => {
     const {
         diaryText,
         mutator: { updateText },
-        handler: { handleInputChange, handleReset, handleResend, handleCursorPosition },
+        handler: { handleInputChange, handleReset },
     } = useStreamer();
 
     const {
@@ -55,7 +53,7 @@ export const StreamerPage = () => {
 
             const updateWithRandomInterval = () => {
                 if (index <= demoText.length) {
-                    const newDiary = convertTextToDiary(demoText.slice(0, index));
+                    const newDiary = demoText.slice(0, index);
                     updateText(newDiary);
                     handleInputChange(newDiary);
                     index++;
@@ -99,12 +97,10 @@ export const StreamerPage = () => {
             />
             <Textarea
                 classNames={{ root: textAreaRootStyle, input: textAreaInputStyle }}
-                value={diaryText.join("")}
+                value={diaryText}
                 onChange={(e) => {
-                    const newDiary = convertTextToDiary(e.target.value);
-                    const curosrIndex = convertPosToIndex(e.target.selectionStart, newDiary);
+                    const newDiary = e.target.value;
                     handleInputChange(newDiary);
-                    handleCursorPosition(curosrIndex);
                 }}
                 placeholder="Write message"
                 disabled={experienceState.stage === "demo"}
@@ -130,17 +126,7 @@ export const StreamerPage = () => {
                             他のデモを見る
                         </Button>
                     ),
-                    diary: (
-                        <Tooltip label="retry" color="blue">
-                            <Button
-                                onClick={async () => await handleResend()}
-                                className={buttonStyle}
-                                variant="subtle"
-                            >
-                                <IconReload />
-                            </Button>
-                        </Tooltip>
-                    ),
+                    diary: <p>リロードボタン未実装</p>,
                 })}
             </div>
         </div>
