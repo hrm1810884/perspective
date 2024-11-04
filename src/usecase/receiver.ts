@@ -18,11 +18,11 @@ export const useReceiveService = () => {
 
     const handleReceive = useCallback(
         (message: SocketMessage) => {
-            const { diary: clientDiary } = message;
+            const { diary: clientDiary, mutatedLength: streamerMutatedLength } = message;
             console.log(`diary ${clientDiary}`);
             const newDiary =
                 mutationState.diary.slice(0, mutationState.mutatedLength) +
-                clientDiary.slice(message.mutatedLength);
+                clientDiary.slice(streamerMutatedLength);
             updateText(newDiary);
         },
         [updateText, mutationState]

@@ -10,6 +10,7 @@ export * from './deleteUser401';
 export * from './deleteUserDefault';
 export * from './getAI200';
 export * from './getAI200Result';
+export * from './getAI200ResultMutatedLength';
 export * from './getAI500';
 export * from './initializeUser200';
 export * from './initializeUser500';

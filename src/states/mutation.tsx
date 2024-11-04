@@ -25,11 +25,21 @@ export const useMutationStates = () => {
         [setMutationState]
     );
 
-    const updateMutationState = useCallback(
-        (data: MutationState) => {
+    const updateMutatedLength = useCallback(
+        (length: number) => {
             setMutationState((prev) => ({
                 ...prev,
-                diary: data.diary + prev.diary.slice(data.mutatedLength),
+                mutatedLength: length,
+            }));
+        },
+        [setMutationState]
+    );
+
+    const updateReceiverMutationState = useCallback(
+        (data: MutationState, streamerMutatedLength: number) => {
+            setMutationState((prev) => ({
+                mutatedLength: data.mutatedLength,
+                diary: data.diary + prev.diary.slice(streamerMutatedLength),
             }));
         },
         [setMutationState]
@@ -39,7 +49,8 @@ export const useMutationStates = () => {
         mutationState,
         mutator: {
             updateText,
-            updateMutationState,
+            updateReceiverMutationState,
+            updateMutatedLength,
         },
     };
 };

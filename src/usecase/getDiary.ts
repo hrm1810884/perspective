@@ -14,6 +14,7 @@ export const useAIMutation = (id: ReceiverId) => {
 
     return {
         data: data?.data.result ? mutateDataUtils.convertData(data.data.result) : undefined,
+        streamerMutatedLength: data?.data.result?.mutatedLength.human,
         isLoading,
         refetch,
     };

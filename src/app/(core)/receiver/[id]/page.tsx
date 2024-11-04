@@ -1,15 +1,20 @@
 "use client";
 
 import { ReceiverPage } from "@/components/page";
-import { ReceiverId } from "@/models";
-import { useParams } from "next/navigation";
-import { FC } from "react";
+import { receiverId, ReceiverId } from "@/models";
+import { NextPage } from "next";
 
-export const Page: FC = () => {
-    const params = useParams();
-    const id = parseInt(params.id[0], 10) as ReceiverId;
-
-    return <ReceiverPage id={id} />;
+const Page: NextPage<{
+    params: {
+        id: number;
+    };
+}> = ({ params: { id } }) => {
+    const validatedId = getReceiverIdFromParams(id);
+    return <ReceiverPage id={validatedId} />;
 };
 
 export default Page;
+
+const getReceiverIdFromParams = (id: number): ReceiverId => {
+    return receiverId.includes(id as ReceiverId) ? (id as ReceiverId) : 1;
+};

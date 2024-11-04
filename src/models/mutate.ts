@@ -13,7 +13,7 @@ export const mutateDataUtils = {
     convertData(data: DAiResult): MutationState {
         return {
             diary: data.diary,
-            mutatedLength: data.mutatedLength,
+            mutatedLength: data.mutatedLength.ai,
         };
     },
 };

@@ -121,8 +121,18 @@ paths:
                                                 type: string
                                                 description: mutated AI diary
                                             mutatedLength:
-                                                type: integer
-                                                description: The index of mutated contents
+                                                type: object
+                                                description: The index of mutated contents object
+                                                properties:
+                                                    human:
+                                                        type: integer
+                                                        description: The index of streamer's mutated contents
+                                                    ai:
+                                                        type: integer
+                                                        description: The index of receiver's mutated contents
+                                                required:
+                                                    - human
+                                                    - ai
                                         required:
                                             - diary
                                             - mutatedLength

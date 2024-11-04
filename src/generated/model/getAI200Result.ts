@@ -4,10 +4,11 @@
  * Text Mutation API
  * OpenAPI spec version: 1.0.0
  */
+import type { GetAI200ResultMutatedLength } from './getAI200ResultMutatedLength';
 
 export type GetAI200Result = {
   /** mutated AI diary */
   diary: string;
-  /** The index of mutated contents */
-  mutatedLength: number;
+  /** The index of mutated contents object */
+  mutatedLength: GetAI200ResultMutatedLength;
 };

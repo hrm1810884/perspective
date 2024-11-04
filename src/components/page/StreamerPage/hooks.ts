@@ -12,7 +12,7 @@ export const useStreamer = () => {
     const { sendToServer } = useStreamService();
     const {
         mutationState,
-        mutator: { updateText },
+        mutator: { updateText, updateMutatedLength },
     } = useMutationStates();
 
     const {
@@ -21,21 +21,21 @@ export const useStreamer = () => {
 
     const counterRef = useRef<number>(0);
 
-    const mutateText = useCallback(async (targetText: DiaryText) => {
-        console.log("mutate start");
-        const res = await sendTextToAI(targetText);
-        match(res)
-            .with({ status: "ok" }, () => {
-                sendToServer({
-                    diary: targetText,
-                    mutatedLength: guardUndef(res.val).mutatedLength,
+    const mutateText = useCallback(
+        async (targetText: DiaryText) => {
+            console.log("mutate start");
+            const res = await sendTextToAI(targetText);
+            match(res)
+                .with({ status: "ok" }, () => {
+                    updateMutatedLength(guardUndef(res.val).mutatedLength);
+                    console.log("successfully mutated");
+                })
+                .with({ status: "err" }, () => {
+                    console.log("failed mutation");
                 });
-                console.log("successfully mutated");
-            })
-            .with({ status: "err" }, () => {
-                console.log("failed mutation");
-            });
-    }, []);
+        },
+        [sendTextToAI, updateMutatedLength]
+    );
 
     const handleInputChange = useCallback(
         async (clientText: DiaryText) => {
@@ -53,16 +53,17 @@ export const useStreamer = () => {
                 counterRef.current++;
             }
         },
-        [updateText, mutateText, sendToServer, mutationState, handleShortTypingSound]
+        [updateText, handleShortTypingSound, sendToServer, mutationState, mutateText, counterRef]
     );
 
     const handleReset = useCallback(async () => {
         updateText("");
+        updateMutatedLength(0);
         sendToServer({
             diary: "",
             mutatedLength: 0,
         });
-    }, [updateText, sendToServer]);
+    }, [updateMutatedLength, updateText, sendToServer]);
 
     return {
         diaryText: mutationState.diary,

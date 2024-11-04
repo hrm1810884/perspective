@@ -4,436 +4,407 @@
  * Text Mutation API
  * OpenAPI spec version: 1.0.0
  */
+import {
+  useMutation,
+  useQuery,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import type {
-    MutationFunction,
-    QueryFunction,
-    QueryKey,
-    UseMutationOptions,
-    UseMutationResult,
-    UseQueryOptions,
-    UseQueryResult,
-    UseSuspenseQueryOptions,
-    UseSuspenseQueryResult,
-} from "@tanstack/react-query";
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import axios from "axios";
+  MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
 import type {
-    DeleteUser400,
-    DeleteUser401,
-    DeleteUserDefault,
-    GetAI200,
-    GetAI500,
-    InitializeUser200,
-    InitializeUser500,
-    MutateText200,
-    MutateText400,
-    MutateTextBody,
-    MutateTextDefault,
-    UpdateResult400,
-    UpdateResult401,
-    UpdateResultBody,
-    UpdateResultDefault,
-} from "./model";
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
+import type {
+  DeleteUser400,
+  DeleteUser401,
+  DeleteUserDefault,
+  GetAI200,
+  GetAI500,
+  InitializeUser200,
+  InitializeUser500,
+  MutateText200,
+  MutateText400,
+  MutateTextBody,
+  MutateTextDefault,
+  UpdateResult400,
+  UpdateResult401,
+  UpdateResultBody,
+  UpdateResultDefault
+} from './model'
+
+
 
 /**
  * @summary Generate a new user ID and return a JWT token
  */
 export const initializeUser = (
-    options?: AxiosRequestConfig
-): Promise<AxiosResponse<InitializeUser200>> => {
-    return axios.get(`/init`, options);
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<InitializeUser200>> => {
+    
+    return axios.get(
+      `/init`,options
+    );
+  }
+
 
 export const getInitializeUserQueryKey = () => {
     return [`/init`] as const;
-};
+    }
 
-export const getInitializeUserQueryOptions = <
-    TData = Awaited<ReturnType<typeof initializeUser>>,
-    TError = AxiosError<InitializeUser500>,
->(options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>;
-    axios?: AxiosRequestConfig;
-}) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {};
+    
+export const getInitializeUserQueryOptions = <TData = Awaited<ReturnType<typeof initializeUser>>, TError = AxiosError<InitializeUser500>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
 
-    const queryKey = queryOptions?.queryKey ?? getInitializeUserQueryKey();
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof initializeUser>>> = ({ signal }) =>
-        initializeUser({ signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getInitializeUserQueryKey();
 
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof initializeUser>>,
-        TError,
-        TData
-    > & { queryKey: QueryKey };
-};
+  
 
-export type InitializeUserQueryResult = NonNullable<Awaited<ReturnType<typeof initializeUser>>>;
-export type InitializeUserQueryError = AxiosError<InitializeUser500>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof initializeUser>>> = ({ signal }) => initializeUser({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type InitializeUserQueryResult = NonNullable<Awaited<ReturnType<typeof initializeUser>>>
+export type InitializeUserQueryError = AxiosError<InitializeUser500>
 
 /**
  * @summary Generate a new user ID and return a JWT token
  */
-export const useInitializeUser = <
-    TData = Awaited<ReturnType<typeof initializeUser>>,
-    TError = AxiosError<InitializeUser500>,
->(options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>;
-    axios?: AxiosRequestConfig;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getInitializeUserQueryOptions(options);
+export const useInitializeUser = <TData = Awaited<ReturnType<typeof initializeUser>>, TError = AxiosError<InitializeUser500>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-    query.queryKey = queryOptions.queryKey;
+  const queryOptions = getInitializeUserQueryOptions(options)
 
-    return query;
-};
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-export const getInitializeUserSuspenseQueryOptions = <
-    TData = Awaited<ReturnType<typeof initializeUser>>,
-    TError = AxiosError<InitializeUser500>,
->(options?: {
-    query?: Partial<
-        UseSuspenseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-}) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {};
+  query.queryKey = queryOptions.queryKey ;
 
-    const queryKey = queryOptions?.queryKey ?? getInitializeUserQueryKey();
+  return query;
+}
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof initializeUser>>> = ({ signal }) =>
-        initializeUser({ signal, ...axiosOptions });
 
-    return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof initializeUser>>,
-        TError,
-        TData
-    > & { queryKey: QueryKey };
-};
 
-export type InitializeUserSuspenseQueryResult = NonNullable<
-    Awaited<ReturnType<typeof initializeUser>>
->;
-export type InitializeUserSuspenseQueryError = AxiosError<InitializeUser500>;
+export const getInitializeUserSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof initializeUser>>, TError = AxiosError<InitializeUser500>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getInitializeUserQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof initializeUser>>> = ({ signal }) => initializeUser({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type InitializeUserSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof initializeUser>>>
+export type InitializeUserSuspenseQueryError = AxiosError<InitializeUser500>
 
 /**
  * @summary Generate a new user ID and return a JWT token
  */
-export const useInitializeUserSuspense = <
-    TData = Awaited<ReturnType<typeof initializeUser>>,
-    TError = AxiosError<InitializeUser500>,
->(options?: {
-    query?: Partial<
-        UseSuspenseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-}): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getInitializeUserSuspenseQueryOptions(options);
+export const useInitializeUserSuspense = <TData = Awaited<ReturnType<typeof initializeUser>>, TError = AxiosError<InitializeUser500>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof initializeUser>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-    const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
-        queryKey: QueryKey;
-    };
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-    query.queryKey = queryOptions.queryKey;
+  const queryOptions = getInitializeUserSuspenseQueryOptions(options)
 
-    return query;
-};
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
 
 /**
  * @summary Mutate a text
  */
 export const mutateText = (
-    mutateTextBody: MutateTextBody,
-    options?: AxiosRequestConfig
-): Promise<AxiosResponse<MutateText200>> => {
-    return axios.post(`/mutate`, mutateTextBody, options);
-};
+    mutateTextBody: MutateTextBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<MutateText200>> => {
+    
+    return axios.post(
+      `/mutate`,
+      mutateTextBody,options
+    );
+  }
 
-export const getMutateTextMutationOptions = <
-    TError = AxiosError<MutateText400 | MutateTextDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof mutateText>>,
-        TError,
-        { data: MutateTextBody },
-        TContext
-    >;
-    axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof mutateText>>,
-    TError,
-    { data: MutateTextBody },
-    TContext
-> => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof mutateText>>,
-        { data: MutateTextBody }
-    > = (props) => {
-        const { data } = props ?? {};
 
-        return mutateText(data, axiosOptions);
-    };
+export const getMutateTextMutationOptions = <TError = AxiosError<MutateText400 | MutateTextDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof mutateText>>, TError,{data: MutateTextBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof mutateText>>, TError,{data: MutateTextBody}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-    return { mutationFn, ...mutationOptions };
-};
+      
 
-export type MutateTextMutationResult = NonNullable<Awaited<ReturnType<typeof mutateText>>>;
-export type MutateTextMutationBody = MutateTextBody;
-export type MutateTextMutationError = AxiosError<MutateText400 | MutateTextDefault>;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof mutateText>>, {data: MutateTextBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  mutateText(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MutateTextMutationResult = NonNullable<Awaited<ReturnType<typeof mutateText>>>
+    export type MutateTextMutationBody = MutateTextBody
+    export type MutateTextMutationError = AxiosError<MutateText400 | MutateTextDefault>
+
+    /**
  * @summary Mutate a text
  */
-export const useMutateText = <
-    TError = AxiosError<MutateText400 | MutateTextDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+export const useMutateText = <TError = AxiosError<MutateText400 | MutateTextDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof mutateText>>, TError,{data: MutateTextBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
         Awaited<ReturnType<typeof mutateText>>,
         TError,
-        { data: MutateTextBody },
+        {data: MutateTextBody},
         TContext
-    >;
-    axios?: AxiosRequestConfig;
-}): UseMutationResult<
-    Awaited<ReturnType<typeof mutateText>>,
-    TError,
-    { data: MutateTextBody },
-    TContext
-> => {
-    const mutationOptions = getMutateTextMutationOptions(options);
+      > => {
 
-    return useMutation(mutationOptions);
-};
+      const mutationOptions = getMutateTextMutationOptions(options);
 
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * @summary Get AI diary from DB
  */
 export const getAI = (
-    diaryId: number,
-    options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetAI200>> => {
-    return axios.get(`/diary/${diaryId}`, options);
-};
+    diaryId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetAI200>> => {
+    
+    return axios.get(
+      `/diary/${diaryId}`,options
+    );
+  }
 
-export const getGetAIQueryKey = (diaryId: number) => {
+
+export const getGetAIQueryKey = (diaryId: number,) => {
     return [`/diary/${diaryId}`] as const;
-};
-
-export const getGetAIQueryOptions = <
-    TData = Awaited<ReturnType<typeof getAI>>,
-    TError = AxiosError<GetAI500>,
->(
-    diaryId: number,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>;
-        axios?: AxiosRequestConfig;
     }
+
+    
+export const getGetAIQueryOptions = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(diaryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) =>
-        getAI(diaryId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
 
-    return { queryKey, queryFn, enabled: !!diaryId, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getAI>>,
-        TError,
-        TData
-    > & { queryKey: QueryKey };
-};
+  
 
-export type GetAIQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>;
-export type GetAIQueryError = AxiosError<GetAI500>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) => getAI(diaryId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(diaryId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAIQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>
+export type GetAIQueryError = AxiosError<GetAI500>
 
 /**
  * @summary Get AI diary from DB
  */
 export const useGetAI = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(
-    diaryId: number,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>;
-        axios?: AxiosRequestConfig;
-    }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getGetAIQueryOptions(diaryId, options);
+ diaryId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-    query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetAIQueryOptions(diaryId,options)
 
-    return query;
-};
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-export const getGetAISuspenseQueryOptions = <
-    TData = Awaited<ReturnType<typeof getAI>>,
-    TError = AxiosError<GetAI500>,
->(
-    diaryId: number,
-    options?: {
-        query?: Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>;
-        axios?: AxiosRequestConfig;
-    }
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetAISuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(diaryId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) =>
-        getAI(diaryId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetAIQueryKey(diaryId);
 
-    return { queryKey, queryFn, enabled: !!diaryId, ...queryOptions } as UseSuspenseQueryOptions<
-        Awaited<ReturnType<typeof getAI>>,
-        TError,
-        TData
-    > & { queryKey: QueryKey };
-};
+  
 
-export type GetAISuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>;
-export type GetAISuspenseQueryError = AxiosError<GetAI500>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAI>>> = ({ signal }) => getAI(diaryId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(diaryId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAISuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getAI>>>
+export type GetAISuspenseQueryError = AxiosError<GetAI500>
 
 /**
  * @summary Get AI diary from DB
  */
-export const useGetAISuspense = <
-    TData = Awaited<ReturnType<typeof getAI>>,
-    TError = AxiosError<GetAI500>,
->(
-    diaryId: number,
-    options?: {
-        query?: Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>;
-        axios?: AxiosRequestConfig;
+export const useGetAISuspense = <TData = Awaited<ReturnType<typeof getAI>>, TError = AxiosError<GetAI500>>(
+ diaryId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAI>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetAISuspenseQueryOptions(diaryId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * @summary Delete user data in database
+ */
+export const deleteUser = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<string>> => {
+    
+    return axios.post(
+      `/delete`,undefined,options
+    );
+  }
+
+
+
+export const getDeleteUserMutationOptions = <TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUser>>, void> = () => {
+          
+
+          return  deleteUser(axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUser>>>
+    
+    export type DeleteUserMutationError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>
+
+    /**
+ * @summary Delete user data in database
+ */
+export const useDeleteUser = <TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError,void, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUser>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteUserMutationOptions(options);
+
+      return useMutation(mutationOptions);
     }
-): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions = getGetAISuspenseQueryOptions(diaryId, options);
-
-    const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<TData, TError> & {
-        queryKey: QueryKey;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
-};
-
-/**
- * @summary Delete user data in database
- */
-export const deleteUser = (options?: AxiosRequestConfig): Promise<AxiosResponse<string>> => {
-    return axios.post(`/delete`, undefined, options);
-};
-
-export const getDeleteUserMutationOptions = <
-    TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError, void, TContext>;
-    axios?: AxiosRequestConfig;
-}): UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError, void, TContext> => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
-
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUser>>, void> = () => {
-        return deleteUser(axiosOptions);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type DeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUser>>>;
-
-export type DeleteUserMutationError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>;
-
-/**
- * @summary Delete user data in database
- */
-export const useDeleteUser = <
-    TError = AxiosError<DeleteUser400 | DeleteUser401 | DeleteUserDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteUser>>, TError, void, TContext>;
-    axios?: AxiosRequestConfig;
-}): UseMutationResult<Awaited<ReturnType<typeof deleteUser>>, TError, void, TContext> => {
-    const mutationOptions = getDeleteUserMutationOptions(options);
-
-    return useMutation(mutationOptions);
-};
-
+    
 /**
  * @summary Update result with given data
  */
 export const updateResult = (
-    updateResultBody: UpdateResultBody,
-    options?: AxiosRequestConfig
-): Promise<AxiosResponse<string>> => {
-    return axios.post(`/result`, updateResultBody, options);
-};
+    updateResultBody: UpdateResultBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<string>> => {
+    
+    return axios.post(
+      `/result`,
+      updateResultBody,options
+    );
+  }
 
-export const getUpdateResultMutationOptions = <
-    TError = AxiosError<UpdateResult400 | UpdateResult401 | UpdateResultDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof updateResult>>,
-        TError,
-        { data: UpdateResultBody },
-        TContext
-    >;
-    axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof updateResult>>,
-    TError,
-    { data: UpdateResultBody },
-    TContext
-> => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof updateResult>>,
-        { data: UpdateResultBody }
-    > = (props) => {
-        const { data } = props ?? {};
 
-        return updateResult(data, axiosOptions);
-    };
+export const getUpdateResultMutationOptions = <TError = AxiosError<UpdateResult400 | UpdateResult401 | UpdateResultDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateResult>>, TError,{data: UpdateResultBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof updateResult>>, TError,{data: UpdateResultBody}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-    return { mutationFn, ...mutationOptions };
-};
+      
 
-export type UpdateResultMutationResult = NonNullable<Awaited<ReturnType<typeof updateResult>>>;
-export type UpdateResultMutationBody = UpdateResultBody;
-export type UpdateResultMutationError = AxiosError<
-    UpdateResult400 | UpdateResult401 | UpdateResultDefault
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateResult>>, {data: UpdateResultBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateResult(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateResultMutationResult = NonNullable<Awaited<ReturnType<typeof updateResult>>>
+    export type UpdateResultMutationBody = UpdateResultBody
+    export type UpdateResultMutationError = AxiosError<UpdateResult400 | UpdateResult401 | UpdateResultDefault>
+
+    /**
  * @summary Update result with given data
  */
-export const useUpdateResult = <
-    TError = AxiosError<UpdateResult400 | UpdateResult401 | UpdateResultDefault>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+export const useUpdateResult = <TError = AxiosError<UpdateResult400 | UpdateResult401 | UpdateResultDefault>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateResult>>, TError,{data: UpdateResultBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
         Awaited<ReturnType<typeof updateResult>>,
         TError,
-        { data: UpdateResultBody },
+        {data: UpdateResultBody},
         TContext
-    >;
-    axios?: AxiosRequestConfig;
-}): UseMutationResult<
-    Awaited<ReturnType<typeof updateResult>>,
-    TError,
-    { data: UpdateResultBody },
-    TContext
-> => {
-    const mutationOptions = getUpdateResultMutationOptions(options);
+      > => {
 
-    return useMutation(mutationOptions);
-};
+      const mutationOptions = getUpdateResultMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
