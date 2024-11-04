@@ -139,7 +139,7 @@ paths:
                             example:
                                 result:
                                     diary: "hogehoge"
-                                    mutatedLength: 2
+                                    mutatedLength: { human: 2, ai: 3 }
 
                 "500":
                     description: Internal server error - user creation failed
