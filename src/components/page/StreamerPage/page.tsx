@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+
 import { Button, Textarea } from "@mantine/core";
 import { useEffect, useRef } from "react";
+import "regenerator-runtime/runtime";
 
 import { useExperienceStates } from "@/states";
 import { stageSwitcher } from "@/utils";
@@ -13,6 +15,7 @@ import { useModal } from "./modals/hooks";
 
 import { OverlayLoading } from "@/components/shared/Loader";
 
+import { useSpeechRecognition } from "@/states/speech";
 import {
     buttonStyle,
     controlAreaStyle,
@@ -38,7 +41,19 @@ export const StreamerPage = () => {
         mutator: { openModal: openFinishModal, closeModal: closeFinishModal },
     } = useModal();
 
+    const {
+        transcript,
+        listening,
+        handler: { startListening, stopListening },
+    } = useSpeechRecognition();
+
     const timeoutRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        if (transcript) {
+            updateText(transcript);
+        }
+    }, [transcript]);
 
     useEffect(() => {
         const clearExistingTimeout = () => {
@@ -126,7 +141,16 @@ export const StreamerPage = () => {
                             他のデモを見る
                         </Button>
                     ),
-                    diary: <p>リロードボタン未実装</p>,
+                    diary: (
+                        <Button
+                            onClick={() => {
+                                listening ? stopListening() : startListening();
+                            }}
+                            className={buttonStyle}
+                        >
+                            {listening ? "Stop" : "Start"}
+                        </Button>
+                    ),
                 })}
             </div>
         </div>
