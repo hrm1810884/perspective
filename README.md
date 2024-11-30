@@ -1,4 +1,8 @@
 # Prismatic Diary
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/d23452fd-a511-4077-95f5-134ca452dc63" alt="image of prismatic diary" width="500" height="300">
+</p>
+
 ## About this
 こちらは日記のように自分の呟きを入力していくと、周りのAIがそれぞれのパーソナリティで知らず知らずのうちに内容を書き換えてしまうシステムです  
 自分の心の呟きや思い出がさまざまな捉え方で広がっていく様子を楽しむ作品として、[東京大学 制作展 2024](https://www.iii.u-tokyo.ac.jp/event/20241017event)に出展されました
