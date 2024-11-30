@@ -1,10 +1,10 @@
 # Prismatic Diary
 ## About this
-こちらは日記のように自分の呟きを入力していくと、周りのAIがそれぞれのパーソナリティで知らず知らずのうちに内容を書き換えてしまうシステムです
+こちらは日記のように自分の呟きを入力していくと、周りのAIがそれぞれのパーソナリティで知らず知らずのうちに内容を書き換えてしまうシステムです  
 自分の心の呟きや思い出がさまざまな捉え方で広がっていく様子を楽しむ作品として、[東京大学 制作展 2024](https://www.iii.u-tokyo.ac.jp/event/20241017event)に出展されました
 
-FE: こちらのレポジトリ
-Socket Server: https://github.com/hrm1810884/prismatic-diary-socket
+FE: こちらのレポジトリ  
+Socket Server: https://github.com/hrm1810884/prismatic-diary-socket  
 BE: https://github.com/hrm1810884/prismatic-backend
 
 ## 始め方
