@@ -6,31 +6,6 @@
 FE: こちらのレポジトリ
 Socket Server: https://github.com/hrm1810884/prismatic-diary-socket
 BE: https://github.com/hrm1810884/prismatic-backend
-## セットアップ
-
-1. raspberry pi4つと貸与PC(windows)をイーサネットワークのハブや各電源，出力機器に接続
-2. 各デバイスの起動後，以下のコマンドで，ipアドレスを確認
-
-```sh
-ifconfig (raspberry pi)
-ipconfig (windows)
-```
-
-出力結果として以下のようになっていることを確認してください
-
-> 192.168.0.101 ~ 104 (raspberry pi)
-> 192.168.0.105 (windows) 3. pingコマンドにより接続を確認
-
-```sh
-ping 192.168.0.105
-```
-
-特に，windows PC(105)に対して接続できることを確認してください．接続ができない場合にはファイヤウォールの設定を変更する必要がありますので[こちら](https://atmarkit.itmedia.co.jp/ait/articles/1712/21/news018.html)を参考にして設定を変更してください．4. windows PCにおいて利用するディレクトリは以下になります
-
--   /Downloads/prismatic-frontend
-    -   フロントエンドのコード(このレポジトリ)
--   /Downloads/prismatic-socket
-    -   ソケットサーバ用のコードです([こちら](https://github.com/hrm1810884/prismatic-diary-socket)のレポジトリ)
 
 ## 始め方
 
